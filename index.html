@@ -73,48 +73,81 @@ body{
 }
 
 /* ════════════════════════════════
-   COVER
+   COVER — FULL SCREEN CINEMATIC
 ════════════════════════════════ */
-#cover{flex-direction:column;background:#000}
+#cover{
+  position:relative;
+  height:100vh;min-height:600px;
+  display:flex;align-items:flex-end;
+  overflow:hidden;background:#000;
+  scroll-snap-align:start;
+}
 
+/* Photo — fills everything, bright and clear */
 .cover-photo{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center top;
-  opacity:0;animation:photofade 2s ease .5s forwards;
-  filter:brightness(.5) contrast(1.1) saturate(.85);
-}
-@keyframes photofade{to{opacity:1}}
-
-.cover-vignette{
   position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center 20%;
+  opacity:0;
+  animation:photofade 2s ease 0s forwards;
+  filter:brightness(.95) contrast(1.02) saturate(1.08);
+  transform:scale(1.04);
+  animation:photozoom 12s ease 0s forwards, photofade 2s ease 0s forwards;
+}
+@keyframes photofade{from{opacity:0}to{opacity:1}}
+@keyframes photozoom{from{transform:scale(1.06)}to{transform:scale(1.0)}}
+
+/* Gradient — only bottom third gets dark, rest stays clear */
+.cover-vignette{
+  position:absolute;inset:0;z-index:1;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 50%,transparent 30%,rgba(5,4,10,.75) 100%),
-    linear-gradient(to top,rgba(5,4,10,1) 0%,rgba(5,4,10,.2) 45%,transparent 70%),
-    linear-gradient(to bottom,rgba(5,4,10,.8) 0%,transparent 25%);
-  z-index:1;
+    linear-gradient(
+      to top,
+      rgba(5,4,10,0.92) 0%,
+      rgba(5,4,10,0.55) 22%,
+      rgba(5,4,10,0.1)  45%,
+      transparent       65%
+    ),
+    linear-gradient(
+      to right,
+      rgba(5,4,10,0.3) 0%,
+      transparent 50%
+    );
 }
 
+/* Gold line — top edge */
+#cover::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--rose),var(--gold),transparent);
+  z-index:10;
+}
+
+/* Text block — bottom left, above the gradient */
 .cover-inner{
-  position:relative;z-index:3;
-  text-align:center;padding:2rem;
-  display:flex;flex-direction:column;align-items:center;
+  position:relative;z-index:5;
+  padding:0 5vw 5vh;
+  max-width:680px;
+  display:flex;flex-direction:column;
+  align-items:flex-start;
 }
 
 .cover-date{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.62rem;letter-spacing:.8em;
+  font-size:.58rem;letter-spacing:.8em;
   text-transform:uppercase;color:var(--gold);
-  opacity:0;animation:slideup .8s ease 1.2s forwards;
-  margin-bottom:2.5rem;
+  opacity:0;animation:slideup .8s ease .6s forwards;
+  margin-bottom:1.4rem;
 }
 
 .cover-names{
   font-family:'Bodoni Moda',serif;
-  font-size:clamp(3.5rem,10vw,8rem);
+  font-size:clamp(3.2rem,7.5vw,6.5rem);
   font-weight:700;line-height:.9;
   letter-spacing:-.02em;color:var(--ivory);
-  opacity:0;animation:slideup 1s ease 1.4s forwards;
-  position:relative;
+  opacity:0;animation:slideup 1s ease .85s forwards;
+  position:relative;margin-bottom:1.8rem;
+  text-shadow:0 2px 40px rgba(0,0,0,0.4);
 }
 .cover-names .amp{
   font-style:italic;font-weight:400;
@@ -123,40 +156,40 @@ body{
 }
 .cover-names::after{
   content:'';position:absolute;
-  bottom:-16px;left:50%;transform:translateX(-50%);
+  bottom:-12px;left:0;
   width:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  animation:lineexpand 1.2s ease 2.2s forwards;
+  background:linear-gradient(to right,var(--gold),transparent);
+  animation:lineexpand 1.2s ease 1.8s forwards;
 }
-@keyframes lineexpand{to{width:80%}}
+@keyframes lineexpand{to{width:60%}}
 
 .cover-tagline{
-  font-size:clamp(.95rem,2vw,1.3rem);
+  font-size:clamp(.95rem,1.6vw,1.15rem);
   font-style:italic;font-weight:300;
-  color:var(--mist);line-height:1.9;
-  max-width:50ch;margin:3rem auto 2.5rem;
-  opacity:0;animation:slideup .9s ease 1.8s forwards;
+  color:rgba(245,239,226,.72);line-height:1.95;
+  margin-bottom:2.5rem;
+  opacity:0;animation:slideup .9s ease 1.2s forwards;
+  text-shadow:0 1px 12px rgba(0,0,0,0.5);
+  max-width:44ch;
 }
 
 .cover-scroll-hint{
-  opacity:0;animation:slideup .8s ease 2.4s forwards;
-  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  opacity:0;animation:slideup .8s ease 1.8s forwards;
+  display:flex;align-items:center;gap:1rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.55rem;letter-spacing:.5em;text-transform:uppercase;
-  color:rgba(245,239,226,.4);
+  font-size:.52rem;letter-spacing:.5em;text-transform:uppercase;
+  color:rgba(245,239,226,.45);text-decoration:none;
+  transition:color .3s;
 }
-.scroll-line-anim{
-  width:1px;height:50px;
-  background:linear-gradient(to bottom,var(--gold),transparent);
-  animation:scrollpulse 2s ease infinite;
+.cover-scroll-hint:hover{color:var(--gold)}
+.cover-scroll-hint::after{
+  content:'';display:block;
+  width:40px;height:1px;background:var(--gold);flex-shrink:0;
 }
-@keyframes scrollpulse{
-  0%,100%{opacity:.3;transform:scaleY(1)}
-  50%{opacity:1;transform:scaleY(1.3)}
-}
+.scroll-line-anim{display:none}
 
 @keyframes slideup{
-  from{opacity:0;transform:translateY(30px)}
+  from{opacity:0;transform:translateY(24px)}
   to{opacity:1;transform:none}
 }
 
@@ -352,7 +385,7 @@ body{
 }
 
 .map-header{
-  padding:4rem 5vw 2rem;text-align:center;
+  padding:3.5rem 5vw 2rem;text-align:center;
   position:relative;z-index:5;
 }
 .map-header .sub{
@@ -367,91 +400,135 @@ body{
   font-weight:400;font-style:italic;color:var(--ivory);
 }
 
-/* Map container */
-#gmap{
-  width:100%;height:55vh;min-height:380px;
+/* Main map+sidebar layout */
+.map-body{
+  display:grid;
+  grid-template-columns:300px 1fr;
+  height:65vh;min-height:420px;
   position:relative;z-index:2;
   border-top:1px solid rgba(232,201,122,.1);
-  border-bottom:1px solid rgba(232,201,122,.1);
+}
+@media(max-width:768px){
+  .map-body{grid-template-columns:1fr;grid-template-rows:auto 55vw}
+  .map-body{height:auto}
 }
 
-/* Venue cards below map */
-.venue-cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:0;position:relative;z-index:2;
-}
-@media(max-width:720px){
-  .venue-cards{grid-template-columns:1fr}
+/* LEFT sidebar */
+.venue-sidebar{
+  background:#06050d;
+  border-right:1px solid rgba(232,201,122,.1);
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(232,201,122,.15) transparent;
 }
 
 .vcard{
-  padding:2rem 1.8rem;
-  border-right:1px solid rgba(232,201,122,.08);
-  border-top:1px solid rgba(232,201,122,.08);
-  background:rgba(255,255,255,.02);
+  padding:1.4rem 1.6rem;
+  border-bottom:1px solid rgba(232,201,122,.07);
+  cursor:pointer;
+  transition:background .25s;
   position:relative;overflow:hidden;
-  cursor:pointer;transition:background .3s;
-  opacity:0;transform:translateY(20px);
-  transition:opacity .7s ease,transform .7s ease,background .3s;
+  opacity:0;transform:translateX(-20px);
+  transition:opacity .6s ease,transform .6s ease,background .25s;
 }
-.vcard:last-child{border-right:none}
+.vcard:nth-child(2){transition-delay:.1s}
+.vcard:nth-child(3){transition-delay:.2s}
 .vcard.on{opacity:1;transform:none}
-.vcard:nth-child(2).on{transition-delay:.12s}
-.vcard:nth-child(3).on{transition-delay:.24s}
-.vcard:hover{background:rgba(232,201,122,.05)}
+.vcard:hover{background:rgba(232,201,122,.06)}
 
-/* Active venue highlight */
-.vcard.active-venue::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+/* Active left accent bar */
+.vcard.active-venue{background:rgba(232,201,122,.08)}
+.vcard.active-venue::before{
+  content:'';position:absolute;
+  left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,var(--rose),var(--gold));
 }
+
+/* Venue image thumbnail */
+.vcard-thumb{
+  width:100%;height:110px;
+  object-fit:cover;display:block;
+  margin-bottom:1rem;
+  filter:brightness(.75) saturate(.85);
+  transition:filter .35s;
+}
+.vcard:hover .vcard-thumb,
+.vcard.active-venue .vcard-thumb{filter:brightness(.95) saturate(1)}
 
 .vcard-num{
   font-family:'Bodoni Moda',serif;
-  font-size:2.5rem;font-weight:700;font-style:italic;
-  color:rgba(232,201,122,.15);line-height:1;margin-bottom:.4rem;
+  font-size:1.6rem;font-weight:700;font-style:italic;
+  color:rgba(232,201,122,.18);line-height:1;margin-bottom:.25rem;
 }
 .vcard h3{
   font-family:'Bodoni Moda',serif;
-  font-size:1rem;font-weight:400;font-style:italic;
-  color:var(--gold2);margin-bottom:.4rem;
+  font-size:.9rem;font-weight:400;font-style:italic;
+  color:var(--gold2);margin-bottom:.3rem;line-height:1.3;
 }
 .vcard p{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(245,239,226,.35);line-height:1.7;
+  font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(245,239,226,.3);line-height:1.6;
 }
 .vcard-coords{
-  margin-top:.7rem;font-family:'Tenor Sans',sans-serif;
-  font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;
-  color:rgba(232,201,122,.3);
+  margin-top:.5rem;font-family:'Tenor Sans',sans-serif;
+  font-size:.47rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(232,201,122,.25);
+}
+.vcard-desc{
+  margin-top:.65rem;
+  font-family:'Cormorant',serif;
+  font-size:.88rem;font-style:italic;font-weight:300;
+  color:rgba(245,239,226,.5);line-height:1.65;
+}
+.vcard-tag{
+  display:inline-block;margin-top:.7rem;
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--rose2);border:1px solid rgba(232,201,122,.15);
+  padding:.2rem .6rem;
 }
 
-/* Animated tour button */
-.tour-btn-wrap{
-  text-align:center;padding:2rem;
+/* RIGHT: map */
+#gmap{
+  position:relative;z-index:2;
+  width:100%;height:100%;
+}
+#gmap iframe{width:100%;height:100%;border:none;display:block}
+
+/* Canvas route overlay */
+#svgMapWrap{
+  display:none;position:relative;
+  width:100%;height:100%;
+  background:#0a1628;
+}
+#routeCanvas{width:100%;height:100%;display:block}
+
+/* Tour controls */
+.tour-controls{
+  display:flex;align-items:center;gap:1rem;
+  padding:1.2rem 2rem;
+  border-top:1px solid rgba(232,201,122,.08);
   position:relative;z-index:3;
+  background:rgba(6,5,13,.8);
+  flex-wrap:wrap;
 }
 .tour-btn{
-  display:inline-flex;align-items:center;gap:.8rem;
+  display:inline-flex;align-items:center;gap:.7rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.58rem;letter-spacing:.5em;text-transform:uppercase;
+  font-size:.55rem;letter-spacing:.45em;text-transform:uppercase;
   color:var(--gold);border:1px solid rgba(232,201,122,.3);
-  padding:.9rem 2rem;cursor:pointer;background:transparent;
-  transition:background .3s,color .3s,border-color .3s;
+  padding:.75rem 1.6rem;cursor:pointer;background:transparent;
+  transition:background .3s,color .3s,border-color .3s;flex-shrink:0;
 }
 .tour-btn:hover{background:var(--gold);color:var(--void);border-color:var(--gold)}
-.tour-btn svg{width:14px;height:14px;fill:currentColor}
-
-/* Tour status bar */
+.tour-btn svg{width:12px;height:12px;fill:currentColor}
 .tour-status{
-  text-align:center;padding:.8rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.55rem;letter-spacing:.4em;text-transform:uppercase;
-  color:rgba(245,239,226,.3);
-  position:relative;z-index:3;
-  min-height:2rem;
+  font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(245,239,226,.45);flex:1;
+  display:flex;align-items:center;gap:0;
 }
 
 /* ════════════════════════════════
@@ -612,12 +689,12 @@ footer{
 </script>
 
 <!-- ══ COVER ══ -->
-<section class="panel" id="cover">
-  <div class="grain"></div>
+<section id="cover">
   <img class="cover-photo"
     src="https://raw.githubusercontent.com/gilbert-uwonkunda/LoveStory/main/Main.jpeg"
     alt="Rightman and Patience"/>
   <div class="cover-vignette"></div>
+  <div class="grain"></div>
   <div class="cover-inner">
     <p class="cover-date">A Map to our Love Story</p>
     <h1 class="cover-names">
@@ -631,10 +708,7 @@ footer{
       A question asked on trembling ground.<br/>
       <em>This is the map of ours.</em>
     </p>
-    <div class="cover-scroll-hint">
-      <div class="scroll-line-anim"></div>
-      <span>scroll to begin</span>
-    </div>
+    <a href="#countdown" class="cover-scroll-hint">Begin the journey</a>
   </div>
 </section>
 
@@ -705,59 +779,80 @@ footer{
 
 <!-- ══ MAP TOUR ══ -->
 <section id="maptour">
-  <p class="chapter-label" style="position:relative;top:auto;left:auto;transform:none;text-align:center;padding:3.5rem 0 0;display:block">Chapter III — The Journey</p>
+  <p class="chapter-label" style="position:relative;top:auto;left:auto;transform:none;text-align:center;padding:3rem 0 0;display:block">Chapter III — The Journey</p>
   <div class="map-header">
     <span class="sub">Wedding Venues · Kigali, Rwanda</span>
     <h2>Follow the Story on the Map</h2>
   </div>
 
-  <div class="tour-btn-wrap">
+  <div class="map-body">
+    <!-- LEFT: venue sidebar -->
+    <div class="venue-sidebar" id="venueCards">
+
+      <div class="vcard rv active-venue" id="vc0" onclick="flyToVenue(0)">
+        <img class="vcard-thumb"
+          src="https://raw.githubusercontent.com/gilbert-uwonkunda/LoveStory/main/Dowry.jpg"
+          alt="Green Jade Garden"/>
+        <div class="vcard-num">01</div>
+        <span class="vcard-tag">Dowry Ceremony</span>
+        <h3>Green Jade Garden</h3>
+        <div class="vcard-desc">
+          The story begins here — where two families meet, blessings are exchanged, and a bride is honoured with love and tradition. Nestled in Kicukiro, this garden has witnessed countless beginnings.
+        </div>
+        <div class="vcard-coords">Kicukiro, Kigali · -1.9998° S, 30.0861° E</div>
+      </div>
+
+      <div class="vcard rv" id="vc1" onclick="flyToVenue(1)">
+        <img class="vcard-thumb"
+          src="https://raw.githubusercontent.com/gilbert-uwonkunda/LoveStory/main/Church.png"
+          alt="Christian Church Assembly"/>
+        <div class="vcard-num">02</div>
+        <span class="vcard-tag">Wedding Ceremony</span>
+        <h3>Christian Church Assembly</h3>
+        <div class="vcard-desc">
+          In the presence of God and those they love, Rightman and Patience will speak their vows. A solemn and joyful moment — where two hearts become one before heaven and earth.
+        </div>
+        <div class="vcard-coords">Gasabo, Kigali · -1.9475° S, 30.1055° E</div>
+      </div>
+
+      <div class="vcard rv" id="vc2" onclick="flyToVenue(2)">
+        <img class="vcard-thumb"
+          src="https://raw.githubusercontent.com/gilbert-uwonkunda/LoveStory/main/Reception.jpg"
+          alt="Green Jade Garden Reception"/>
+        <div class="vcard-num">03</div>
+        <span class="vcard-tag">Wedding Reception</span>
+        <h3>Green Jade Garden</h3>
+        <div class="vcard-desc">
+          The celebration returns to where it all began. Dinner, dancing, laughter, and the first moments of a shared life — the night belongs to love, and you are invited to be part of it.
+        </div>
+        <div class="vcard-coords">Kicukiro, Kigali · -1.9998° S, 30.0861° E</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: map -->
+    <div id="gmap">
+      <iframe id="gmapFrame" width="100%" height="100%" style="border:0"
+        loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=-1.999818630668812,30.086063782944066&t=k&z=17&output=embed">
+      </iframe>
+    </div>
+
+    <!-- Canvas route overlay (shown during tour animation) -->
+    <div id="svgMapWrap" style="display:none;position:absolute;top:0;left:300px;right:0;bottom:0;">
+      <canvas id="routeCanvas" style="width:100%;height:100%;display:block"></canvas>
+    </div>
+  </div>
+
+  <!-- Tour controls bar -->
+  <div class="tour-controls">
     <button class="tour-btn" id="tourBtn" onclick="startTour()">
       <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
       Play Venue Tour
     </button>
+    <span class="tour-status" id="tourStatus">Click a venue to explore · or Play to animate the full journey</span>
   </div>
 
-  <div class="tour-status" id="tourStatus">Click Play to animate the journey between venues</div>
-
-  <!-- Google Maps embed — satellite, centered between all 3 venues -->
-  <div id="gmap">
-    <iframe
-      id="gmapFrame"
-      width="100%" height="100%"
-      style="border:0"
-      loading="lazy"
-      allowfullscreen
-      referrerpolicy="no-referrer-when-downgrade"
-      src="https://www.google.com/maps/embed?pb=!1m4!1m3!1i14!2f30.09575953988677!3f-1.9736942798073957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!7i16384!8m2!3d-1.9736!4d30.0957!5e1!3m2!1sen!2srw!4v1700000000000!5m2!1sen!2srw">
-    </iframe>
-  </div>
-
-  <!-- Custom animated SVG map overlay (shows animated route) -->
-  <div id="svgMapWrap" style="display:none;position:relative;width:100%;background:#0a1628;">
-    <canvas id="routeCanvas" style="width:100%;display:block"></canvas>
-  </div>
-
-  <div class="venue-cards" id="venueCards">
-    <div class="vcard rv" id="vc0" onclick="flyToVenue(0)">
-      <div class="vcard-num">01</div>
-      <h3>Green Jade Garden Dowry</h3>
-      <p>Where traditions are honoured<br/>and families become one</p>
-      <div class="vcard-coords">-1.9998° S · 30.0861° E</div>
-    </div>
-    <div class="vcard rv" id="vc1" onclick="flyToVenue(1)">
-      <div class="vcard-num">02</div>
-      <h3>Christian Church Assembly</h3>
-      <p>Where vows are spoken<br/>and heaven bears witness</p>
-      <div class="vcard-coords">-1.9475° S · 30.1055° E</div>
-    </div>
-    <div class="vcard rv" id="vc2" onclick="flyToVenue(2)">
-      <div class="vcard-num">03</div>
-      <h3>Reception — Green Jade Garden</h3>
-      <p>Where celebration takes flight<br/>and forever officially begins</p>
-      <div class="vcard-coords">-1.9998° S · 30.0861° E</div>
-    </div>
-  </div>
 </section>
 
 <!-- ══ RSVP ══ -->
@@ -861,7 +956,7 @@ document.querySelectorAll('.rv,.poem-line,.star-glyph,.poem-bold,.invite-text,.i
 
 /* ══ COUNTDOWN ══ */
 (function(){
-  const target=new Date('2025-07-01T08:00:00');
+  const target=new Date('2026-07-01T08:00:00');
   const els={
     d:document.getElementById('cd-days'),
     h:document.getElementById('cd-hours'),
@@ -897,224 +992,194 @@ document.querySelectorAll('.rv,.poem-line,.star-glyph,.poem-bold,.invite-text,.i
 
 /* ══ MAP TOUR ══ */
 const venues=[
-  {lat:-1.999818630668812, lng:30.086063782944066, name:'Green Jade Garden Dowry',   idx:0},
-  {lat:-1.9475298389477895,lng:30.10545529682947,  name:'Christian Church Assembly', idx:1},
+  {lat:-1.999818630668812, lng:30.086063782944066, name:'Green Jade Garden — Dowry',     idx:0},
+  {lat:-1.9475298389477895,lng:30.10545529682947,  name:'Christian Church Assembly',     idx:1},
   {lat:-1.999818630668812, lng:30.086063782944066, name:'Reception · Green Jade Garden', idx:2}
 ];
 
-// Build satellite Google Maps URLs per venue
-function gmapURL(lat,lng,zoom=17){
-  // satellite embed — using "t=k" satellite type via Maps embed API
-  return `https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=${lat},${lng}&zoom=${zoom}&maptype=satellite`;
-}
-
-// Fallback: use standard embed with satellite layer query
 function gmapSatURL(lat,lng,zoom=17){
-  // Standard embed with satellite view param
-  const q=encodeURIComponent(`${lat},${lng}`);
   return `https://maps.google.com/maps?q=${lat},${lng}&t=k&z=${zoom}&output=embed`;
 }
 
 let tourRunning=false;
-let tourStep=0;
-let tourTimer=null;
+let routeAnim=null;
 
 function setActiveVenue(idx){
   document.querySelectorAll('.vcard').forEach((el,i)=>{
-    el.classList.toggle('active-venue',i===idx);
+    el.classList.toggle('active-venue', i===idx);
   });
 }
 
+const PIN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" viewBox="0 0 24 28" fill="none" style="vertical-align:middle;margin-right:6px;flex-shrink:0"><path d="M12 0C7.13 0 3 4.13 3 9c0 6.75 9 19 9 19s9-12.25 9-19c0-4.87-4.13-9-9-9z" fill="#e8c97a"/><circle cx="12" cy="9" r="3.5" fill="#05040a"/></svg>`;
+
+const venueLabels=[
+  'Green Jade Garden — Dowry Ceremony',
+  'Christian Church Assembly — Wedding Ceremony',
+  'Green Jade Garden — Wedding Reception'
+];
+
 function flyToVenue(idx){
   const v=venues[idx];
-  const frame=document.getElementById('gmapFrame');
-  frame.src=gmapSatURL(v.lat,v.lng,17);
+  document.getElementById('gmapFrame').src=gmapSatURL(v.lat,v.lng,17);
+  document.getElementById('gmap').style.display='block';
+  document.getElementById('svgMapWrap').style.display='none';
   setActiveVenue(idx);
-  document.getElementById('tourStatus').textContent=`📍 ${v.name}`;
+  document.getElementById('tourStatus').innerHTML=`${PIN_SVG}<span>${venueLabels[idx]}</span>`;
 }
 
-// Animated route canvas overlay
+/* ── Animated route canvas ── */
 function drawRoute(progress){
   const wrap=document.getElementById('svgMapWrap');
   const canvas=document.getElementById('routeCanvas');
   const ctx=canvas.getContext('2d');
-  const W=canvas.width=wrap.offsetWidth;
-  const H=canvas.height=Math.round(W*0.35);
-  canvas.style.height=H+'px';
+  const W=canvas.width=wrap.offsetWidth||600;
+  const H=canvas.height=wrap.offsetHeight||400;
 
-  // Map lat/lng to canvas coords
   const allLat=venues.map(v=>v.lat);
   const allLng=venues.map(v=>v.lng);
-  const minLat=Math.min(...allLat)-.003;
-  const maxLat=Math.max(...allLat)+.003;
-  const minLng=Math.min(...allLng)-.005;
-  const maxLng=Math.max(...allLng)+.005;
+  const pad=.006;
+  const minLat=Math.min(...allLat)-pad, maxLat=Math.max(...allLat)+pad;
+  const minLng=Math.min(...allLng)-pad*2, maxLng=Math.max(...allLng)+pad*2;
 
   function toXY(lat,lng){
-    const x=(lng-minLng)/(maxLng-minLng)*W*.9+W*.05;
-    const y=(1-(lat-minLat)/(maxLat-minLat))*H*.8+H*.1;
+    const x=(lng-minLng)/(maxLng-minLng)*W*.82+W*.09;
+    const y=(1-(lat-minLat)/(maxLat-minLat))*H*.78+H*.11;
     return[x,y];
   }
 
   ctx.clearRect(0,0,W,H);
 
-  // Background
+  // Dark satellite-style bg
   const bg=ctx.createLinearGradient(0,0,W,H);
-  bg.addColorStop(0,'#0a1628');bg.addColorStop(1,'#05040a');
-  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  bg.addColorStop(0,'#0d1b2a'); bg.addColorStop(1,'#050912');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
 
-  // Grid lines
-  ctx.strokeStyle='rgba(232,201,122,.05)';ctx.lineWidth=1;
-  for(let i=0;i<10;i++){
-    ctx.beginPath();ctx.moveTo(0,H*i/10);ctx.lineTo(W,H*i/10);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(W*i/10,0);ctx.lineTo(W*i/10,H);ctx.stroke();
+  // Grid
+  ctx.strokeStyle='rgba(232,201,122,.04)';ctx.lineWidth=1;
+  for(let i=1;i<8;i++){
+    ctx.beginPath();ctx.moveTo(W*i/8,0);ctx.lineTo(W*i/8,H);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,H*i/8);ctx.lineTo(W,H*i/8);ctx.stroke();
   }
 
-  // Points
   const pts=venues.map(v=>toXY(v.lat,v.lng));
 
-  // Full dashed path guide
-  ctx.setLineDash([4,8]);
-  ctx.strokeStyle='rgba(232,201,122,.12)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(...pts[0]);
-  for(let i=1;i<pts.length;i++) ctx.lineTo(...pts[i]);
-  ctx.stroke();ctx.setLineDash([]);
+  // Dashed guide
+  ctx.setLineDash([4,10]);ctx.strokeStyle='rgba(232,201,122,.1)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(...pts[0]);pts.slice(1).forEach(p=>ctx.lineTo(...p));ctx.stroke();
+  ctx.setLineDash([]);
 
-  // Animated route line
   if(progress>0){
-    // Total path length segments
     const segs=pts.length-1;
-    const totalProgress=progress*segs;
-
-    ctx.strokeStyle='rgba(232,201,122,0)';
-    ctx.lineWidth=2;
+    const totalP=progress*segs;
     const grad=ctx.createLinearGradient(...pts[0],...pts[pts.length-1]);
-    grad.addColorStop(0,`rgba(196,82,110,0.9)`);
-    grad.addColorStop(0.5,`rgba(232,201,122,0.9)`);
-    grad.addColorStop(1,`rgba(232,201,122,0.9)`);
-    ctx.strokeStyle=grad;
-    ctx.lineWidth=2.5;
-    ctx.lineCap='round';
-    ctx.lineJoin='round';
-
-    ctx.beginPath();
-    ctx.moveTo(...pts[0]);
+    grad.addColorStop(0,'rgba(196,82,110,.95)');
+    grad.addColorStop(.5,'rgba(232,201,122,.95)');
+    grad.addColorStop(1,'rgba(245,223,160,.95)');
+    ctx.strokeStyle=grad;ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(...pts[0]);
     for(let s=0;s<segs;s++){
-      const segProgress=Math.min(1,Math.max(0,totalProgress-s));
-      if(segProgress<=0) break;
-      const tx=pts[s][0]+(pts[s+1][0]-pts[s][0])*segProgress;
-      const ty=pts[s][1]+(pts[s+1][1]-pts[s][1])*segProgress;
+      const sp=Math.min(1,Math.max(0,totalP-s));if(sp<=0)break;
+      const tx=pts[s][0]+(pts[s+1][0]-pts[s][0])*sp;
+      const ty=pts[s][1]+(pts[s+1][1]-pts[s][1])*sp;
       ctx.lineTo(tx,ty);
     }
     ctx.stroke();
 
-    // Animated dot at head
-    const curSeg=Math.min(segs-1,Math.floor(totalProgress));
-    const segFrac=totalProgress-curSeg;
-    const hx=pts[curSeg][0]+(pts[Math.min(curSeg+1,pts.length-1)][0]-pts[curSeg][0])*segFrac;
-    const hy=pts[curSeg][1]+(pts[Math.min(curSeg+1,pts.length-1)][1]-pts[curSeg][1])*segFrac;
-    // Glow
-    const grd=ctx.createRadialGradient(hx,hy,0,hx,hy,16);
-    grd.addColorStop(0,'rgba(232,201,122,0.5)');grd.addColorStop(1,'transparent');
-    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(hx,hy,16,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='rgba(232,201,122,1)';ctx.beginPath();ctx.arc(hx,hy,4,0,Math.PI*2);ctx.fill();
+    // Moving dot
+    const cs=Math.min(segs-1,Math.floor(totalP));
+    const cf=totalP-cs;
+    const nx=Math.min(cs+1,pts.length-1);
+    const hx=pts[cs][0]+(pts[nx][0]-pts[cs][0])*cf;
+    const hy=pts[cs][1]+(pts[nx][1]-pts[cs][1])*cf;
+    const grd=ctx.createRadialGradient(hx,hy,0,hx,hy,18);
+    grd.addColorStop(0,'rgba(232,201,122,.45)');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(hx,hy,18,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#e8c97a';ctx.beginPath();ctx.arc(hx,hy,4.5,0,Math.PI*2);ctx.fill();
   }
 
   // Venue markers
+  const labels=['Dowry','Church','Reception'];
   venues.forEach((v,i)=>{
     const[x,y]=pts[i];
     const reached=progress>=(i/(venues.length-1));
-    // Outer ring
-    ctx.beginPath();ctx.arc(x,y,12,0,Math.PI*2);
-    ctx.strokeStyle=reached?'rgba(232,201,122,0.8)':'rgba(232,201,122,0.2)';
+    // Pulse ring
+    ctx.beginPath();ctx.arc(x,y,14,0,Math.PI*2);
+    ctx.strokeStyle=reached?'rgba(232,201,122,.7)':'rgba(232,201,122,.15)';
     ctx.lineWidth=1;ctx.stroke();
-    // Inner dot
-    ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);
-    ctx.fillStyle=reached?'var(--gold)':'rgba(232,201,122,0.3)';
-    if(i===0) ctx.fillStyle='rgba(196,82,110,0.9)';
-    ctx.fillStyle=reached?'#e8c97a':'rgba(232,201,122,0.2)';
+    // Dot
+    ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);
+    ctx.fillStyle=i===0?'rgba(196,82,110,.9)':reached?'#e8c97a':'rgba(232,201,122,.2)';
     ctx.fill();
+    // Number
+    ctx.fillStyle=reached?'#05040a':'rgba(245,239,226,.5)';
+    ctx.font=`bold ${Math.max(8,W*.012)}px serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(i+1,x,y);
     // Label
-    ctx.fillStyle=reached?'rgba(245,239,226,0.85)':'rgba(245,239,226,0.25)';
-    ctx.font=`${Math.max(9,W*0.012)}px "Tenor Sans", sans-serif`;
-    ctx.textAlign='center';
-    const labelY=y>H/2?y-18:y+24;
-    ctx.fillText(['Dowry','Church','Reception'][i],x,labelY);
-    // Number badge
-    ctx.fillStyle=reached?'#e8c97a':'rgba(232,201,122,0.2)';
-    ctx.font=`bold ${Math.max(8,W*0.011)}px "Bodoni Moda",serif`;
-    ctx.fillText(i+1,x,y+4);
+    ctx.fillStyle=reached?'rgba(245,239,226,.9)':'rgba(245,239,226,.3)';
+    ctx.font=`${Math.max(9,W*.011)}px "Tenor Sans",sans-serif`;
+    ctx.textBaseline='alphabetic';
+    ctx.fillText(labels[i],x,y>H/2?y-20:y+28);
   });
 }
 
-let routeAnim=null;
 function startTour(){
-  if(tourRunning) return;
+  if(tourRunning)return;
   tourRunning=true;
   const btn=document.getElementById('tourBtn');
-  btn.innerHTML='<svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Tour Playing…';
+  btn.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Playing…';
   btn.disabled=true;
 
-  // Show canvas overlay briefly before switching to map
+  // Show canvas over map
   const wrap=document.getElementById('svgMapWrap');
   wrap.style.display='block';
   document.getElementById('gmap').style.display='none';
 
   let p=0;
-  const dur=4000; // ms for full route animation
+  const dur=4200;
   const start=performance.now();
-  if(routeAnim) cancelAnimationFrame(routeAnim);
+  if(routeAnim)cancelAnimationFrame(routeAnim);
 
-  function animFrame(now){
+  function frame(now){
     p=Math.min(1,(now-start)/dur);
     drawRoute(p);
-    // Highlight venue cards as route progresses
-    if(p<.5) setActiveVenue(0);
-    else if(p<1) setActiveVenue(1);
-    if(p<1){routeAnim=requestAnimationFrame(animFrame);}
+    if(p<.33)setActiveVenue(0);
+    else if(p<.66)setActiveVenue(1);
+    else setActiveVenue(2);
+    if(p<1){routeAnim=requestAnimationFrame(frame);}
     else{
-      setActiveVenue(2);
-      // After animation, cycle through Google Maps satellite views
       setTimeout(()=>{
         wrap.style.display='none';
         document.getElementById('gmap').style.display='block';
         cycleMaps();
-      },800);
+      },700);
     }
   }
-  routeAnim=requestAnimationFrame(animFrame);
+  routeAnim=requestAnimationFrame(frame);
 }
 
 function cycleMaps(){
   let i=0;
   const status=document.getElementById('tourStatus');
-  function flyNext(){
+  function next(){
     if(i>=venues.length){
-      // Reset
-      document.getElementById('gmapFrame').src=gmapSatURL(-1.9736,30.0957,14);
-      setActiveVenue(-1);
-      status.textContent='Tour complete — click a venue card to explore';
+      flyToVenue(0);
+      status.innerHTML=`${PIN_SVG}<span>Tour complete — click a venue to explore</span>`;
       const btn=document.getElementById('tourBtn');
-      btn.innerHTML='<svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor"><path d="M8 5v14l11-7z"/></svg> Play Again';
-      btn.disabled=false;
-      tourRunning=false;
-      return;
+      btn.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M8 5v14l11-7z"/></svg> Play Again';
+      btn.disabled=false;tourRunning=false;return;
     }
     flyToVenue(i);
-    status.textContent=`✦ Now at: ${venues[i].name}`;
-    i++;
-    setTimeout(flyNext,3500);
+    i++;setTimeout(next,3500);
   }
-  flyNext();
+  next();
 }
 
-// Initial map load — overview satellite
 window.addEventListener('load',()=>{
-  document.getElementById('gmapFrame').src=gmapSatURL(-1.9736,30.0957,14);
-  drawRoute(0);
+  flyToVenue(0);
 });
 window.addEventListener('resize',()=>{
-  if(!tourRunning) drawRoute(0);
+  if(document.getElementById('svgMapWrap').style.display!=='none') drawRoute(1);
 });
 
 /* ══ RSVP ══ */
