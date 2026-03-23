@@ -24,9 +24,9 @@
   --rose:#3d5030;
   --rose2:#c8dfc0;
   --ivory:#ffffff;
-  --mist:rgba(255,255,255,0.55);
+  --mist:rgba(255,255,255,0.88);
 }
-html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
 body{
   background:var(--void);
   color:var(--ivory);
@@ -49,36 +49,39 @@ body{
 .sidenav{
   position:fixed;right:1.5rem;top:50%;
   transform:translateY(-50%);
-  display:flex;flex-direction:column;gap:.9rem;
+  display:flex;flex-direction:column;gap:1.2rem;
   z-index:100;
 }
 .sidenav a{
-  width:5px;height:5px;border-radius:50%;
-  background:rgba(255,255,255,.25);
+  width:11px;height:11px;border-radius:50%;
+  background:rgba(255,255,255,.35);
   display:block;transition:background .3s,transform .3s;
   text-decoration:none;
+  /* large invisible tap target */
+  padding:8px;margin:-8px;box-sizing:content-box;
 }
-.sidenav a.on{background:var(--gold);transform:scale(1.8)}
+.sidenav a.on{background:var(--gold);transform:scale(1.6)}
 @media(max-width:640px){.sidenav{display:none}}
 
 /* ── MOBILE BOTTOM NAV ── */
 .bottom-nav{
   display:none;
   position:fixed;bottom:0;left:0;right:0;
-  z-index:200;padding:.9rem 0;
-  background:rgba(61,80,48,.92);
+  z-index:200;padding:1.1rem 0;
+  background:rgba(61,80,48,.95);
   backdrop-filter:blur(10px);
-  justify-content:center;gap:1.4rem;
-  border-top:1px solid rgba(255,255,255,.1);
+  justify-content:center;gap:2.2rem;
+  border-top:1px solid rgba(255,255,255,.15);
 }
 @media(max-width:640px){.bottom-nav{display:flex}}
 .bottom-nav a{
-  width:7px;height:7px;border-radius:50%;
-  background:rgba(255,255,255,.25);display:block;
+  width:12px;height:12px;border-radius:50%;
+  background:rgba(255,255,255,.35);display:block;
   transition:background .3s,transform .3s;
   text-decoration:none;
+  padding:10px;margin:-10px;box-sizing:content-box;
 }
-.bottom-nav a.on{background:#fff;transform:scale(1.7)}
+.bottom-nav a.on{background:#fff;transform:scale(1.5)}
 
 /* ── PANELS ── */
 .panel{
@@ -161,7 +164,7 @@ body{
 
 .cover-date{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.58rem;letter-spacing:.8em;
+  font-size:.85rem;letter-spacing:.5em;
   text-transform:uppercase;color:var(--gold);
   opacity:0;animation:slideup .8s ease .6s forwards;
   margin-bottom:1.4rem;
@@ -191,9 +194,9 @@ body{
 @keyframes lineexpand{to{width:60%}}
 
 .cover-tagline{
-  font-size:clamp(.95rem,1.6vw,1.15rem);
-  font-style:italic;font-weight:300;
-  color:rgba(255,255,255,.72);line-height:1.95;
+  font-size:clamp(1.05rem,1.8vw,1.25rem);
+  font-style:normal;font-weight:300;
+  color:rgba(255,255,255,.90);line-height:1.95;
   margin-bottom:2.5rem;
   opacity:0;animation:slideup .9s ease 1.2s forwards;
   text-shadow:0 1px 12px rgba(0,0,0,0.5);
@@ -204,8 +207,8 @@ body{
   opacity:0;animation:slideup .8s ease 1.8s forwards;
   display:flex;align-items:center;gap:1rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.52rem;letter-spacing:.5em;text-transform:uppercase;
-  color:rgba(255,255,255,.45);text-decoration:none;
+  font-size:.78rem;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(255,255,255,.80);text-decoration:none;
   transition:color .3s;
 }
 .cover-scroll-hint:hover{color:var(--gold)}
@@ -234,7 +237,7 @@ body{
 
 .cd-label{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.6rem;letter-spacing:.8em;text-transform:uppercase;
+  font-size:.85rem;letter-spacing:.5em;text-transform:uppercase;
   color:var(--gold);margin-bottom:2.5rem;
   opacity:0;transition:opacity .8s ease;
 }
@@ -252,7 +255,7 @@ body{
 
 .cd-date-text{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.62rem;letter-spacing:.5em;
+  font-size:.88rem;letter-spacing:.35em;
   text-transform:uppercase;color:var(--rose2);
   margin-bottom:4rem;
   opacity:0;transition:opacity .8s ease .2s;
@@ -310,8 +313,8 @@ body{
 
 .cd-unit{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.52rem;letter-spacing:.4em;
-  text-transform:uppercase;color:rgba(255,255,255,.4);
+  font-size:.82rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(255,255,255,.85);
 }
 
 /* Heart pulse under countdown */
@@ -339,15 +342,15 @@ body{
 .chapter-label{
   position:absolute;top:2.5rem;left:50%;transform:translateX(-50%);
   font-family:'Tenor Sans',sans-serif;
-  font-size:.55rem;letter-spacing:.8em;text-transform:uppercase;
-  color:var(--gold);opacity:.6;z-index:10;white-space:nowrap;
+  font-size:.85rem;letter-spacing:.45em;text-transform:uppercase;
+  color:var(--gold);opacity:.9;z-index:10;white-space:nowrap;
 }
 .poem-wrap{max-width:680px;text-align:center;position:relative;z-index:2;}
 .poem-line{
   display:block;
-  font-size:clamp(1.15rem,2.8vw,1.7rem);
-  font-style:italic;font-weight:300;
-  line-height:2.1;color:var(--ivory);
+  font-size:clamp(1.2rem,2.8vw,1.75rem);
+  font-style:normal;font-weight:400;
+  line-height:2.2;color:var(--ivory);
   opacity:0;transform:translateY(20px);
   transition:opacity .9s ease,transform .9s ease;
 }
@@ -385,8 +388,8 @@ body{
   font-style:italic;user-select:none;pointer-events:none;
 }
 .invite-text{
-  font-size:clamp(1.1rem,2.5vw,1.5rem);
-  font-style:italic;font-weight:300;
+  font-size:clamp(1.15rem,2.5vw,1.5rem);
+  font-style:normal;font-weight:400;
   line-height:2;color:var(--mist);
   opacity:0;transform:translateY(20px);
   transition:opacity .9s ease,transform .9s ease;
@@ -417,7 +420,7 @@ body{
 }
 .map-header .sub{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.6rem;letter-spacing:.7em;
+  font-size:.85rem;letter-spacing:.45em;
   text-transform:uppercase;color:var(--gold);
   margin-bottom:.8rem;display:block;
 }
@@ -495,26 +498,26 @@ body{
 }
 .vcard p{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;
-  color:rgba(255,255,255,.3);line-height:1.6;
+  font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);line-height:1.7;
 }
 .vcard-coords{
   margin-top:.5rem;font-family:'Tenor Sans',sans-serif;
-  font-size:.47rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,255,255,.25);
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
 }
 .vcard-desc{
   margin-top:.65rem;
   font-family:'Cormorant',serif;
-  font-size:.88rem;font-style:italic;font-weight:300;
-  color:rgba(255,255,255,.5);line-height:1.65;
+  font-size:1rem;font-style:normal;font-weight:400;
+  color:rgba(255,255,255,.85);line-height:1.7;
 }
 .vcard-tag{
   display:inline-block;margin-top:.7rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;
-  color:var(--rose2);border:1px solid rgba(255,255,255,.15);
-  padding:.2rem .6rem;
+  font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rose2);border:1px solid rgba(255,255,255,.25);
+  padding:.3rem .8rem;
 }
 
 /* RIGHT: map */
@@ -544,17 +547,17 @@ body{
 .tour-btn{
   display:inline-flex;align-items:center;gap:.7rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.55rem;letter-spacing:.45em;text-transform:uppercase;
-  color:var(--gold);border:1px solid rgba(255,255,255,.3);
-  padding:.75rem 1.6rem;cursor:pointer;background:transparent;
+  font-size:.85rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(255,255,255,.4);
+  padding:.9rem 2rem;cursor:pointer;background:transparent;
   transition:background .3s,color .3s,border-color .3s;flex-shrink:0;
 }
 .tour-btn:hover{background:var(--gold);color:var(--void);border-color:var(--gold)}
 .tour-btn svg{width:12px;height:12px;fill:currentColor}
 .tour-status{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;
-  color:rgba(255,255,255,.45);flex:1;
+  font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.80);flex:1;
   display:flex;align-items:center;gap:0;
 }
 
@@ -581,7 +584,7 @@ body{
 
 .rsvp-eyebrow{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.55rem;letter-spacing:.8em;
+  font-size:.85rem;letter-spacing:.5em;
   text-transform:uppercase;color:var(--rose2);
   margin-bottom:1.5rem;text-align:center;
   opacity:0;transition:opacity .8s ease;
@@ -597,7 +600,7 @@ body{
 }
 .rsvp-title.on{opacity:1;transform:none}
 .rsvp-sub{
-  font-size:1rem;font-style:italic;color:var(--mist);
+  font-size:1.05rem;font-style:normal;color:var(--mist);
   text-align:center;margin-bottom:2.5rem;line-height:1.8;
   opacity:0;transition:opacity .8s ease .2s;
 }
@@ -606,18 +609,18 @@ body{
 .fg{margin-bottom:1.3rem}
 .fg label{
   display:block;font-family:'Tenor Sans',sans-serif;
-  font-size:.52rem;letter-spacing:.5em;text-transform:uppercase;
-  color:rgba(255,255,255,.6);margin-bottom:.5rem;
+  font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);margin-bottom:.5rem;
 }
 .fg input,.fg select,.fg textarea{
-  width:100%;padding:.85rem 0;
-  border:none;border-bottom:1px solid rgba(255,255,255,.2);
+  width:100%;padding:.9rem 0;
+  border:none;border-bottom:1px solid rgba(255,255,255,.35);
   background:transparent;
-  font-family:'Cormorant',serif;font-size:1rem;
+  font-family:'Cormorant',serif;font-size:1.15rem;
   color:var(--ivory);outline:none;
   transition:border-color .3s;border-radius:0;appearance:none;
 }
-.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.25)}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.55)}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-bottom-color:var(--gold)}
 .fg select option{background:var(--deep);color:var(--ivory)}
 .fg textarea{resize:vertical;min-height:80px}
@@ -625,10 +628,10 @@ body{
 @media(max-width:480px){.fg-row{grid-template-columns:1fr}}
 
 .btn-rsvp{
-  width:100%;padding:1.1rem;
-  background:transparent;border:1px solid rgba(255,255,255,.35);
+  width:100%;padding:1.2rem;
+  background:transparent;border:1px solid rgba(255,255,255,.5);
   color:var(--gold);font-family:'Tenor Sans',sans-serif;
-  font-size:.6rem;letter-spacing:.6em;text-transform:uppercase;
+  font-size:.9rem;letter-spacing:.4em;text-transform:uppercase;
   cursor:pointer;position:relative;overflow:hidden;
   transition:color .4s ease,border-color .4s ease;margin-top:1rem;
 }
@@ -657,15 +660,15 @@ footer{
   font-family:'Bodoni Moda',serif;
   font-size:clamp(2rem,5vw,3.5rem);
   font-weight:700;font-style:italic;
-  color:rgba(255,255,255,.30);letter-spacing:.04em;
+  color:rgba(255,255,255,.70);letter-spacing:.04em;
   display:block;margin-bottom:1.5rem;
 }
 .footer-line{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.55rem;letter-spacing:.6em;text-transform:uppercase;
-  color:rgba(255,255,255,.2);
+  font-size:.82rem;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
 }
-.footer-line span{color:var(--gold);opacity:.5}
+.footer-line span{color:var(--gold);opacity:.9}
 
 /* ── PROPOSAL PANEL ── */
 .proposal-panel{
