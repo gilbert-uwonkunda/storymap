@@ -1,578 +1,1478 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>RSVP Dashboard · Rightman & Patience</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rightman & Patience — A Map to our Love Story</title>
+<meta property="og:title" content="Rightman & Patience — A Map to our Love Story"/>
+<meta property="og:description" content="Join us as we celebrate our wedding on 01 July 2026 in Kigali, Rwanda. Your presence will be highly appreciated."/>
+<meta property="og:image" content="Background.jpeg"/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Rightman & Patience — 01 July 2026"/>
+<meta name="twitter:description" content="A wedding celebration in Kigali, Rwanda. Walk with us from the first hello — to forever."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400;1,6..96,700&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --void:#526643;
   --deep:#3d5030;
-  --leaf:#2d3d22;
   --gold:#ffffff;
-  --accent:#c8dfc0;
-  --dim:rgba(255,255,255,.65);
-  --border:rgba(255,255,255,.12);
+  --gold2:#ffffff;
+  --rose:#3d5030;
+  --rose2:#c8dfc0;
+  --ivory:#ffffff;
+  --mist:rgba(255,255,255,0.88);
 }
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
 body{
   background:var(--void);
-  color:var(--gold);
+  color:var(--ivory);
   font-family:'Cormorant',Georgia,serif;
-  min-height:100vh;
+  overflow-x:hidden;
+  cursor:default;
 }
 
-/* ── HEADER ── */
-.dash-header{
-  background:var(--leaf);
-  border-bottom:1px solid var(--border);
-  padding:1.4rem 2rem;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:1rem;
-  position:sticky;top:0;z-index:100;
-}
-.dash-header h1{
-  font-family:'Bodoni Moda',serif;
-  font-size:clamp(1.2rem,2.5vw,1.8rem);
-  font-weight:700;font-style:italic;color:var(--gold);
-}
-.dash-header p{
-  font-family:'Tenor Sans',sans-serif;
-  font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--accent);margin-top:.25rem;
-}
-.header-right{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
-.live-badge{
-  display:flex;align-items:center;gap:.55rem;
-  font-family:'Tenor Sans',sans-serif;
-  font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
-  color:#8ddf8d;
-}
-.live-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:#8ddf8d;
-  animation:pulse 2s ease infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-.back-link{
-  font-family:'Tenor Sans',sans-serif;
-  font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--accent);text-decoration:none;
-  border:1px solid rgba(255,255,255,.2);
-  padding:.45rem 1rem;
-  transition:background .3s,color .3s;
-}
-.back-link:hover{background:var(--accent);color:var(--deep)}
+/* ── STARFIELD ── */
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.65}
 
-/* ── MAIN ── */
-.dash-main{max-width:1100px;margin:0 auto;padding:2rem}
-
-/* ── STATUS BAR ── */
-.status-bar{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:2rem;flex-wrap:wrap;gap:.8rem;
-}
-.status-text{
-  font-family:'Tenor Sans',sans-serif;
-  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,255,255,.45);
+/* ── PROGRESS ── */
+#prog{
+  position:fixed;top:0;left:0;height:1px;
+  background:linear-gradient(90deg,var(--rose),var(--gold),var(--rose2));
+  z-index:1000;width:0;transition:width .08s linear;
 }
 
-/* ── STAT CARDS ── */
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:1.2rem;margin-bottom:2rem;
+/* ── SIDE NAV ── */
+.sidenav{
+  position:fixed;right:1.5rem;top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:1.2rem;
+  z-index:100;
 }
-.stat-card{
-  background:var(--deep);
-  border:1px solid var(--border);
-  padding:1.8rem 1.5rem;
-  position:relative;overflow:hidden;
-  transition:transform .2s;
+.sidenav a{
+  width:11px;height:11px;border-radius:50%;
+  background:rgba(255,255,255,.35);
+  display:block;transition:background .3s,transform .3s;
+  text-decoration:none;
+  /* large invisible tap target */
+  padding:8px;margin:-8px;box-sizing:content-box;
 }
-.stat-card:hover{transform:translateY(-2px)}
-.stat-card::before{
-  content:'';position:absolute;
-  top:0;left:0;width:3px;height:100%;
-  background:linear-gradient(to bottom,var(--accent),transparent);
-}
-.stat-label{
-  font-family:'Tenor Sans',sans-serif;
-  font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:.8rem;display:block;
-}
-.stat-num{
-  font-family:'Bodoni Moda',serif;
-  font-size:clamp(2.4rem,5vw,3.4rem);
-  font-weight:700;color:var(--gold);line-height:1;
-}
-.stat-sub{
-  font-family:'Cormorant',serif;
-  font-size:.95rem;font-style:italic;
-  color:rgba(255,255,255,.55);margin-top:.5rem;
-}
+.sidenav a.on{background:var(--gold);transform:scale(1.6)}
+@media(max-width:640px){.sidenav{display:none}}
 
-/* ── SECTION TITLE ── */
-.section-title{
-  font-family:'Tenor Sans',sans-serif;
-  font-size:.78rem;letter-spacing:.45em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:1.2rem;
-  padding-bottom:.6rem;
-  border-bottom:1px solid var(--border);
+/* ── MOBILE BOTTOM NAV ── */
+.bottom-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  z-index:200;padding:1.1rem 0;
+  background:rgba(61,80,48,.95);
+  backdrop-filter:blur(10px);
+  justify-content:center;gap:2.2rem;
+  border-top:1px solid rgba(255,255,255,.15);
 }
+@media(max-width:640px){.bottom-nav{display:flex}}
+.bottom-nav a{
+  width:12px;height:12px;border-radius:50%;
+  background:rgba(255,255,255,.35);display:block;
+  transition:background .3s,transform .3s;
+  text-decoration:none;
+  padding:10px;margin:-10px;box-sizing:content-box;
+}
+.bottom-nav a.on{background:#fff;transform:scale(1.5)}
 
-/* ── EVENT BREAKDOWN ── */
-.events-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
-  gap:1.2rem;margin-bottom:2.5rem;
-}
-.event-card{
-  background:var(--deep);
-  border:1px solid var(--border);
-  padding:1.4rem 1.5rem;
-  display:flex;align-items:center;gap:1.3rem;
-}
-.event-icon{
-  font-size:1.8rem;flex-shrink:0;
-  width:50px;height:50px;
+/* ── PANELS ── */
+.panel{
+  position:relative;min-height:100vh;
+  scroll-snap-align:start;
   display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,.05);
-  border:1px solid var(--border);
+  overflow:hidden;z-index:1;
 }
-.event-info{flex:1;min-width:0}
-.event-name{
-  font-family:'Bodoni Moda',serif;
-  font-size:1.05rem;font-weight:400;font-style:italic;
-  color:var(--gold);margin-bottom:.2rem;
+
+/* ── GRAIN ── */
+.grain{
+  position:absolute;inset:0;z-index:2;opacity:.035;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain .4s steps(1) infinite;
 }
-.event-time{
+@keyframes grain{
+  0%{transform:translate(0,0)}20%{transform:translate(-2%,-3%)}40%{transform:translate(3%,2%)}
+  60%{transform:translate(-1%,3%)}80%{transform:translate(2%,-2%)}100%{transform:translate(0,0)}
+}
+
+/* ════════════════════════════════
+   COVER — FULL SCREEN CINEMATIC
+════════════════════════════════ */
+#cover{
+  position:relative;
+  height:100vh;min-height:600px;
+  display:flex;align-items:flex-end;
+  overflow:hidden;background:#000;
+  scroll-snap-align:start;
+}
+
+/* Photo — fills everything, bright and clear */
+.cover-photo{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center 20%;
+  opacity:0;
+  animation:photofade 2s ease 0s forwards;
+  filter:brightness(.95) contrast(1.02) saturate(1.08);
+  transform:scale(1.04);
+  animation:photozoom 12s ease 0s forwards, photofade 2s ease 0s forwards;
+}
+@keyframes photofade{from{opacity:0}to{opacity:1}}
+@keyframes photozoom{from{transform:scale(1.06)}to{transform:scale(1.0)}}
+
+/* Gradient — only bottom third gets dark, rest stays clear */
+.cover-vignette{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(
+      to top,
+      rgba(82,102,67,0.92) 0%,
+      rgba(82,102,67,0.55) 22%,
+      rgba(82,102,67,0.1)  45%,
+      transparent       65%
+    ),
+    linear-gradient(
+      to right,
+      rgba(82,102,67,0.3) 0%,
+      transparent 50%
+    );
+}
+
+/* Gold line — top edge */
+#cover::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--rose),var(--gold),transparent);
+  z-index:10;
+}
+
+/* Text block — bottom left, above the gradient */
+.cover-inner{
+  position:relative;z-index:5;
+  padding:0 5vw 5vh;
+  max-width:680px;
+  display:flex;flex-direction:column;
+  align-items:flex-start;
+}
+
+.cover-date{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,255,255,.5);margin-bottom:.7rem;
+  font-size:.85rem;letter-spacing:.5em;
+  text-transform:uppercase;color:var(--gold);
+  opacity:0;animation:slideup .8s ease .6s forwards;
+  margin-bottom:1.4rem;
 }
-.event-bar-wrap{
-  height:3px;background:rgba(255,255,255,.1);
+
+.cover-names{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(3.2rem,7.5vw,6.5rem);
+  font-weight:700;line-height:.9;
+  letter-spacing:-.02em;color:var(--ivory);
+  opacity:0;animation:slideup 1s ease .85s forwards;
+  position:relative;margin-bottom:1.8rem;
+  text-shadow:0 2px 40px rgba(0,0,0,0.4);
+}
+.cover-names .amp{
+  font-style:italic;font-weight:400;
+  color:var(--gold);font-size:.7em;
+  display:block;line-height:1.1;
+}
+.cover-names::after{
+  content:'';position:absolute;
+  bottom:-12px;left:0;
+  width:0;height:1px;
+  background:linear-gradient(to right,var(--gold),transparent);
+  animation:lineexpand 1.2s ease 1.8s forwards;
+}
+@keyframes lineexpand{to{width:60%}}
+
+.cover-tagline{
+  font-size:clamp(1.05rem,1.8vw,1.25rem);
+  font-style:normal;font-weight:300;
+  color:rgba(255,255,255,.90);line-height:1.95;
+  margin-bottom:2.5rem;
+  opacity:0;animation:slideup .9s ease 1.2s forwards;
+  text-shadow:0 1px 12px rgba(0,0,0,0.5);
+  max-width:44ch;
+}
+
+.cover-scroll-hint{
+  opacity:0;animation:slideup .8s ease 1.8s forwards;
+  display:flex;align-items:center;gap:1rem;
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.78rem;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(255,255,255,.80);text-decoration:none;
+  transition:color .3s;
+}
+.cover-scroll-hint:hover{color:var(--gold)}
+.cover-scroll-hint::after{
+  content:'';display:block;
+  width:40px;height:1px;background:var(--gold);flex-shrink:0;
+}
+.scroll-line-anim{display:none}
+
+@keyframes slideup{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:none}
+}
+
+/* ════════════════════════════════
+   COUNTDOWN
+════════════════════════════════ */
+#countdown{
+  flex-direction:column;
+  background:linear-gradient(160deg,var(--void) 0%,#3d5030 50%,var(--deep) 100%);
+}
+
+.cd-inner{
+  text-align:center;position:relative;z-index:2;padding:3rem 2rem;
+}
+
+.cd-label{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.85rem;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2.5rem;
+  opacity:0;transition:opacity .8s ease;
+}
+.cd-label.on{opacity:1}
+
+.cd-title{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:400;font-style:italic;
+  color:var(--ivory);margin-bottom:.6rem;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .8s ease .1s,transform .8s ease .1s;
+}
+.cd-title.on{opacity:1;transform:none}
+
+.cd-date-text{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.88rem;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--rose2);
+  margin-bottom:4rem;
+  opacity:0;transition:opacity .8s ease .2s;
+}
+.cd-date-text.on{opacity:1}
+
+/* Countdown tiles */
+.cd-tiles{
+  display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;
+  margin-bottom:3.5rem;
+}
+
+.cd-tile{
+  display:flex;flex-direction:column;align-items:center;
+  opacity:0;transform:translateY(24px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.cd-tile.on{opacity:1;transform:none}
+.cd-tile:nth-child(2){transition-delay:.1s}
+.cd-tile:nth-child(3){transition-delay:.2s}
+.cd-tile:nth-child(4){transition-delay:.3s}
+
+.cd-box{
+  position:relative;
+  width:clamp(80px,18vw,130px);
+  height:clamp(80px,18vw,130px);
+  border:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.8rem;
+  background:rgba(255,255,255,.03);
   overflow:hidden;
 }
-.event-bar{
-  height:100%;background:var(--accent);
-  transition:width 1s cubic-bezier(.25,.46,.45,.94);width:0;
+/* Corner accents */
+.cd-box::before,.cd-box::after{
+  content:'';position:absolute;
+  width:10px;height:10px;
+  border-color:var(--gold);border-style:solid;
+  opacity:.75;
 }
-.event-count{
+.cd-box::before{top:0;left:0;border-width:1px 0 0 1px}
+.cd-box::after{bottom:0;right:0;border-width:0 1px 1px 0}
+
+.cd-num{
   font-family:'Bodoni Moda',serif;
-  font-size:1.8rem;font-weight:700;
-  color:var(--gold);flex-shrink:0;min-width:40px;text-align:right;
+  font-size:clamp(2.2rem,7vw,4rem);
+  font-weight:700;color:var(--gold);
+  line-height:1;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.cd-num.tick{animation:numtick .3s ease}
+@keyframes numtick{
+  0%{transform:translateY(-8px);opacity:.5}
+  100%{transform:translateY(0);opacity:1}
 }
 
-/* ── TABLE ── */
-.table-wrap{
-  background:var(--deep);
-  border:1px solid var(--border);
-  overflow:hidden;margin-bottom:2rem;
+.cd-unit{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.82rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(255,255,255,.85);
 }
-.table-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.2rem 1.5rem;
-  border-bottom:1px solid var(--border);
-  gap:1rem;flex-wrap:wrap;
+
+/* Heart pulse under countdown */
+.cd-heart{
+  font-size:1.5rem;color:var(--rose);
+  animation:heartbeat 1.4s ease infinite;
+  display:block;
 }
-.table-head h3{
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  14%{transform:scale(1.15)}
+  28%{transform:scale(1)}
+  42%{transform:scale(1.1)}
+  56%{transform:scale(1)}
+}
+
+/* ════════════════════════════════
+   POEM
+════════════════════════════════ */
+#poem{
+  flex-direction:column;
+  background:linear-gradient(160deg,var(--void) 0%,#3d5030 50%,var(--deep) 100%);
+  padding:6rem 2rem;
+}
+.chapter-label{
+  position:absolute;top:2.5rem;left:50%;transform:translateX(-50%);
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.85rem;letter-spacing:.45em;text-transform:uppercase;
+  color:var(--gold);opacity:.9;z-index:10;white-space:nowrap;
+}
+.poem-wrap{max-width:680px;text-align:center;position:relative;z-index:2;}
+.poem-line{
+  display:block;
+  font-size:clamp(1.2rem,2.8vw,1.75rem);
+  font-style:normal;font-weight:400;
+  line-height:2.2;color:var(--ivory);
+  opacity:0;transform:translateY(20px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.poem-line.on{opacity:1;transform:none}
+.star-glyph{
+  font-size:1.2rem;color:var(--gold);
+  display:block;margin:2.5rem auto;
+  opacity:0;transition:opacity .8s ease;
+  animation:rotateStar 20s linear infinite;
+}
+.star-glyph.on{opacity:.6}
+@keyframes rotateStar{to{transform:rotate(360deg)}}
+.poem-bold{
   font-family:'Bodoni Moda',serif;
-  font-size:1.1rem;font-style:italic;color:var(--gold);
+  font-size:clamp(1.4rem,3.5vw,2.2rem);
+  font-weight:700;font-style:italic;color:var(--gold);
+  display:block;margin:2rem auto;
+  opacity:0;transform:translateY(16px);
+  transition:opacity 1s ease .2s,transform 1s ease .2s;
 }
-.table-actions{display:flex;gap:.8rem;flex-wrap:wrap}
-.dash-btn{
+.poem-bold.on{opacity:1;transform:none}
+
+/* ════════════════════════════════
+   INVITE
+════════════════════════════════ */
+#invite{background:var(--void);flex-direction:column;}
+.invite-inner{
+  position:relative;z-index:2;
+  max-width:700px;text-align:center;padding:4rem 2rem;
+}
+.big-quote{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(4rem,12vw,9rem);
+  color:var(--gold);opacity:.14;line-height:.7;display:block;
+  font-style:italic;user-select:none;pointer-events:none;
+}
+.invite-text{
+  font-size:clamp(1.15rem,2.5vw,1.5rem);
+  font-style:normal;font-weight:400;
+  line-height:2;color:var(--mist);
+  opacity:0;transform:translateY(20px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.invite-text.on{opacity:1;transform:none}
+.invite-names{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;color:var(--ivory);
+  margin:2rem 0 1rem;letter-spacing:.03em;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .9s ease .15s,transform .9s ease .15s;
+}
+.invite-names.on{opacity:1;transform:none}
+
+/* ════════════════════════════════
+   MAP TOUR SECTION
+════════════════════════════════ */
+#maptour{
+  flex-direction:column;align-items:stretch;
+  padding:0;background:var(--void);
+  min-height:100vh;scroll-snap-align:start;
+}
+
+.map-header{
+  padding:3.5rem 5vw 2rem;text-align:center;
+  position:relative;z-index:5;
+}
+.map-header .sub{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--accent);background:transparent;
-  border:1px solid rgba(255,255,255,.2);
-  padding:.5rem 1.1rem;cursor:pointer;
-  transition:background .3s,color .3s;
+  font-size:.85rem;letter-spacing:.45em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:.8rem;display:block;
 }
-.dash-btn:hover{background:var(--accent);color:var(--deep)}
-.table-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-thead th{
+.map-header h2{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:400;font-style:italic;color:var(--ivory);
+}
+
+/* Main map+sidebar layout */
+.map-body{
+  display:grid;
+  grid-template-columns:300px 1fr;
+  height:65vh;min-height:420px;
+  position:relative;z-index:2;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+@media(max-width:768px){
+  .map-body{grid-template-columns:1fr;grid-template-rows:auto 55vw}
+  .map-body{height:auto}
+}
+
+/* LEFT sidebar */
+.venue-sidebar{
+  background:#3d5030;
+  border-right:1px solid rgba(255,255,255,.1);
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.15) transparent;
+}
+
+.vcard{
+  padding:1.4rem 1.6rem;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  cursor:pointer;
+  transition:background .25s;
+  position:relative;overflow:hidden;
+  opacity:0;transform:translateX(-20px);
+  transition:opacity .6s ease,transform .6s ease,background .25s;
+}
+.vcard:nth-child(2){transition-delay:.1s}
+.vcard:nth-child(3){transition-delay:.2s}
+.vcard.on{opacity:1;transform:none}
+.vcard:hover{background:rgba(255,255,255,.06)}
+
+/* Active left accent bar */
+.vcard.active-venue{background:rgba(255,255,255,.08)}
+.vcard.active-venue::before{
+  content:'';position:absolute;
+  left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,var(--rose),var(--gold));
+}
+
+/* Venue image thumbnail */
+.vcard-thumb{
+  width:100%;height:110px;
+  object-fit:cover;display:block;
+  margin-bottom:1rem;
+  filter:brightness(.75) saturate(.85);
+  transition:filter .35s;
+}
+.vcard:hover .vcard-thumb,
+.vcard.active-venue .vcard-thumb{filter:brightness(.95) saturate(1)}
+
+.vcard-num{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.6rem;font-weight:700;font-style:italic;
+  color:rgba(255,255,255,.18);line-height:1;margin-bottom:.25rem;
+}
+.vcard h3{
+  font-family:'Bodoni Moda',serif;
+  font-size:.9rem;font-weight:400;font-style:italic;
+  color:var(--gold2);margin-bottom:.3rem;line-height:1.3;
+}
+.vcard p{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
-  color:var(--accent);padding:.85rem 1.2rem;
-  text-align:left;
-  border-bottom:1px solid var(--border);
-  white-space:nowrap;background:rgba(0,0,0,.1);
+  font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);line-height:1.7;
 }
-tbody tr{border-bottom:1px solid rgba(255,255,255,.05);transition:background .2s}
-tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:rgba(255,255,255,.04)}
-tbody td{
+.vcard-coords{
+  margin-top:.5rem;font-family:'Tenor Sans',sans-serif;
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
+}
+.vcard-desc{
+  margin-top:.65rem;
   font-family:'Cormorant',serif;
-  font-size:1rem;color:var(--gold);
-  padding:.8rem 1.2rem;vertical-align:middle;
+  font-size:1rem;font-style:normal;font-weight:400;
+  color:rgba(255,255,255,.85);line-height:1.7;
 }
-.pill{
-  display:inline-block;
+.vcard-tag{
+  display:inline-block;margin-top:.7rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
-  padding:.28rem .7rem;
-  border:1px solid rgba(255,255,255,.2);
-  white-space:nowrap;
+  font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--rose2);border:1px solid rgba(255,255,255,.25);
+  padding:.3rem .8rem;
 }
-.pill-yes{color:#a8d5a8;border-color:rgba(168,213,168,.4)}
-.pill-no{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.15)}
 
-/* ── EMPTY / ERROR / SKELETON ── */
-.empty-state{
-  padding:3rem;text-align:center;
+/* RIGHT: map */
+#gmap{
+  position:relative;z-index:2;
+  width:100%;height:100%;
+}
+#gmap iframe{width:100%;height:100%;border:none;display:block}
+
+/* Canvas route overlay */
+#svgMapWrap{
+  display:none;position:relative;
+  width:100%;height:100%;
+  background:#3d5030;
+}
+#routeCanvas{width:100%;height:100%;display:block}
+
+/* Tour controls */
+.tour-controls{
+  display:flex;align-items:center;gap:1rem;
+  padding:1.2rem 2rem;
+  border-top:1px solid rgba(255,255,255,.08);
+  position:relative;z-index:3;
+  background:rgba(82,102,67,.8);
+  flex-wrap:wrap;
+}
+.tour-btn{
+  display:inline-flex;align-items:center;gap:.7rem;
   font-family:'Tenor Sans',sans-serif;
-  font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;
-  color:rgba(255,255,255,.35);
+  font-size:.85rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(255,255,255,.4);
+  padding:.9rem 2rem;cursor:pointer;background:transparent;
+  transition:background .3s,color .3s,border-color .3s;flex-shrink:0;
 }
-.error-card{
-  background:var(--deep);
-  border:1px solid rgba(255,130,130,.2);
-  padding:2rem 2rem;text-align:center;margin:1rem 0;
+.tour-btn:hover{background:var(--gold);color:var(--void);border-color:var(--gold)}
+.tour-btn svg{width:12px;height:12px;fill:currentColor}
+.tour-status{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.80);flex:1;
+  display:flex;align-items:center;gap:0;
 }
-.error-card h3{
-  font-family:'Bodoni Moda',serif;font-style:italic;
-  color:#ffaaaa;font-size:1.3rem;margin-bottom:.8rem;
+
+/* ════════════════════════════════
+   RSVP
+════════════════════════════════ */
+#rsvp{
+  flex-direction:column;
+  background:linear-gradient(170deg,var(--deep) 0%,#3d5030 50%,var(--void) 100%);
+  padding:6rem 5vw;
 }
-.error-card p{
-  font-family:'Cormorant',serif;font-size:1.05rem;
-  color:rgba(255,255,255,.75);line-height:1.9;
+.rsvp-wrap{max-width:720px;width:100%;position:relative;z-index:2;}
+.rsvp-frame{
+  border:1px solid rgba(255,255,255,.15);
+  padding:3.5rem;position:relative;
 }
-.error-card code{
-  background:rgba(255,255,255,.08);padding:.2rem .5rem;
-  font-size:.85rem;
+.rsvp-frame::before,.rsvp-frame::after{
+  content:'';position:absolute;
+  width:30px;height:30px;
+  border-color:var(--gold);border-style:solid;
 }
-.skeleton{
-  background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.04) 75%);
-  background-size:200% 100%;
-  animation:shimmer 1.5s infinite;
-  border-radius:2px;height:1em;display:block;
+.rsvp-frame::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.rsvp-frame::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+
+.rsvp-eyebrow{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.85rem;letter-spacing:.5em;
+  text-transform:uppercase;color:var(--rose2);
+  margin-bottom:1.5rem;text-align:center;
+  opacity:0;transition:opacity .8s ease;
 }
-@keyframes shimmer{to{background-position:-200% 0}}
+.rsvp-eyebrow.on{opacity:1}
+.rsvp-title{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:400;font-style:italic;color:var(--ivory);
+  text-align:center;margin-bottom:.8rem;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .8s ease .1s,transform .8s ease .1s;
+}
+.rsvp-title.on{opacity:1;transform:none}
+.rsvp-sub{
+  font-size:1.05rem;font-style:normal;color:var(--mist);
+  text-align:center;margin-bottom:2.5rem;line-height:1.8;
+  opacity:0;transition:opacity .8s ease .2s;
+}
+.rsvp-sub.on{opacity:1}
+
+.fg{margin-bottom:1.3rem}
+.fg label{
+  display:block;font-family:'Tenor Sans',sans-serif;
+  font-size:.82rem;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);margin-bottom:.5rem;
+}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:.9rem 0;
+  border:none;border-bottom:1px solid rgba(255,255,255,.35);
+  background:transparent;
+  font-family:'Cormorant',serif;font-size:1.15rem;
+  color:var(--ivory);outline:none;
+  transition:border-color .3s;border-radius:0;appearance:none;
+}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.55)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-bottom-color:var(--gold)}
+.fg select option{background:var(--deep);color:var(--ivory)}
+.fg textarea{resize:vertical;min-height:80px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:480px){.fg-row{grid-template-columns:1fr}}
+
+.btn-rsvp{
+  width:100%;padding:1.2rem;
+  background:transparent;border:1px solid rgba(255,255,255,.5);
+  color:var(--gold);font-family:'Tenor Sans',sans-serif;
+  font-size:.9rem;letter-spacing:.4em;text-transform:uppercase;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:color .4s ease,border-color .4s ease;margin-top:1rem;
+}
+.btn-rsvp::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold);transform:translateX(-101%);
+  transition:transform .4s ease;
+}
+.btn-rsvp:hover::before{transform:none}
+.btn-rsvp:hover{color:var(--void)}
+.btn-rsvp span{position:relative;z-index:1}
+.form-ok{
+  display:none;text-align:center;margin-top:2rem;
+  font-style:italic;font-size:1.1rem;color:var(--rose2);
+}
 
 /* ── FOOTER ── */
-.dash-footer{
-  text-align:center;padding:2rem;
+footer{
+  scroll-snap-align:start;
+  background:var(--void);
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:4rem 2rem;text-align:center;
+  position:relative;z-index:1;
+}
+.footer-names{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700;font-style:italic;
+  color:rgba(255,255,255,.70);letter-spacing:.04em;
+  display:block;margin-bottom:1.5rem;
+}
+.footer-line{
   font-family:'Tenor Sans',sans-serif;
-  font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
-  color:rgba(255,255,255,.3);
+  font-size:.82rem;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(255,255,255,.65);
+}
+.footer-line span{color:var(--gold);opacity:.9}
+
+/* ── PROPOSAL PANEL ── */
+.proposal-panel{
+  position:relative;
+  height:100vh;min-height:500px;
+  overflow:hidden;
+  scroll-snap-align:start;
+  display:flex;align-items:center;justify-content:center;
+}
+.proposal-panel .proposal-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  animation:photozoom 14s ease forwards;
+}
+.proposal-panel .proposal-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(61,80,48,.88) 0%,
+    rgba(61,80,48,.25) 45%,
+    rgba(61,80,48,.08) 100%
+  );
+}
+.proposal-caption{
+  position:relative;z-index:2;
+  text-align:center;padding:2rem;
+}
+.proposal-caption .p-label{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.85rem;letter-spacing:.5em;text-transform:uppercase;
+  color:rgba(255,255,255,.90);display:block;margin-bottom:1.2rem;
+}
+.proposal-caption .p-title{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2.2rem,7vw,5rem);
+  font-weight:400;font-style:italic;color:#fff;
+  line-height:1.1;text-shadow:0 2px 30px rgba(0,0,0,.4);
 }
 
-/* ── MOBILE ── */
-@media(max-width:640px){
-  .dash-main{padding:1rem}
-  thead{display:none}
-  tbody tr{display:block;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
-  tbody td{
-    display:flex;gap:.8rem;
-    padding:.3rem 1rem;align-items:baseline;
-  }
-  tbody td::before{
-    content:attr(data-label);
-    font-family:'Tenor Sans',sans-serif;
-    font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
-    color:var(--accent);flex-shrink:0;min-width:90px;
-  }
+/* ════════════════════════════════
+   CHILDHOOD STRIP
+════════════════════════════════ */
+.childhood-strip{
+  display:flex;gap:clamp(1.5rem,5vw,3rem);
+  justify-content:center;margin-top:4rem;flex-wrap:wrap;
+}
+.cs-item{
+  display:flex;flex-direction:column;align-items:center;gap:.9rem;
+  opacity:0;transform:translateY(24px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.cs-item.on{opacity:1;transform:none}
+.cs-item:nth-child(2){transition-delay:.25s}
+.cs-photo{
+  width:clamp(140px,28vw,200px);
+  height:clamp(170px,34vw,250px);
+  object-fit:cover;object-position:center top;
+  border:1px solid rgba(255,255,255,.25);
+  filter:brightness(.8) saturate(.6) sepia(.25);
+  transition:filter .5s;
+}
+.cs-photo:hover{filter:brightness(.96) saturate(.95) sepia(0)}
+.cs-name{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.85rem;letter-spacing:.45em;text-transform:uppercase;
+  color:rgba(255,255,255,.80);
+}
+
+/* ════════════════════════════════
+   FIRST HELLO PANEL
+════════════════════════════════ */
+.firsthello-panel{
+  position:relative;height:100vh;min-height:500px;
+  overflow:hidden;display:grid;grid-template-columns:1fr 1fr;
+}
+.fh-half{position:relative;overflow:hidden}
+.fh-half img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  transform:scale(1.04);transition:transform 8s ease;
+}
+.fh-half:hover img{transform:scale(1.0)}
+.fh-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(
+    to top,
+    rgba(61,80,48,.90) 0%,
+    rgba(61,80,48,.18) 50%,
+    transparent 100%
+  );
+}
+.fh-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:2rem 1.5rem 2.5rem;text-align:center;z-index:2;
+}
+.fh-label{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.82rem;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);display:block;margin-bottom:.5rem;
+}
+.fh-name{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(1.2rem,2.8vw,1.9rem);
+  font-weight:400;font-style:italic;color:#fff;
+  text-shadow:0 2px 20px rgba(0,0,0,.5);
+}
+.fh-divider{
+  position:absolute;top:0;bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:1px;background:rgba(255,255,255,.3);
+  z-index:5;pointer-events:none;
+}
+.fh-center-label{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:10;text-align:center;pointer-events:none;
+}
+.fh-center-label::before,.fh-center-label::after{
+  content:'';display:block;
+  width:1px;height:50px;
+  background:rgba(255,255,255,.4);margin:0 auto;
+}
+.fh-center-label span{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(1.4rem,3vw,2.2rem);
+  font-style:italic;color:#fff;
+  background:rgba(61,80,48,.80);
+  padding:.5rem 1.6rem;display:block;
+  text-shadow:0 2px 16px rgba(0,0,0,.4);
+  white-space:nowrap;
+}
+@media(max-width:600px){
+  .firsthello-panel{grid-template-columns:1fr;grid-template-rows:1fr 1fr;height:auto;min-height:100vh}
+  .fh-half{min-height:50vh}
+  .fh-divider{top:50%;bottom:auto;left:0;right:0;width:100%;height:1px;transform:none}
+  .fh-center-label{top:50%}
+}
+
+/* ════════════════════════════════
+   CIVIL PANEL
+════════════════════════════════ */
+.civil-panel{
+  position:relative;height:100vh;min-height:500px;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.civil-panel .civil-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  animation:photozoom 14s ease forwards;
+}
+.civil-panel .civil-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to top,
+    rgba(61,80,48,.92) 0%,
+    rgba(61,80,48,.35) 45%,
+    rgba(61,80,48,.08) 100%
+  );
+}
+.civil-caption{
+  position:relative;z-index:2;
+  text-align:center;padding:0 2rem;max-width:560px;
+}
+.cv-label{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.85rem;letter-spacing:.5em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);display:block;margin-bottom:1rem;
+}
+.cv-title{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2rem,5vw,3.8rem);
+  font-weight:400;font-style:italic;color:#fff;
+  line-height:1.2;margin-bottom:1.2rem;
+  text-shadow:0 2px 30px rgba(0,0,0,.35);
+}
+.cv-sub{
+  font-family:'Cormorant',serif;
+  font-size:clamp(1.05rem,2vw,1.3rem);
+  font-style:normal;font-weight:400;
+  color:rgba(255,255,255,.88);line-height:1.9;
+}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s ease}
+.rv.d1{transition-delay:.12s}
+.rv.d2{transition-delay:.24s}
+.rv.d3{transition-delay:.36s}
+.rv.on{opacity:1;transform:none}
+
+/* ── FLOATING GLYPHS ── */
+.petal{
+  position:fixed;font-size:1rem;opacity:0;
+  pointer-events:none;z-index:0;
+  animation:petalfall linear infinite;
+}
+@keyframes petalfall{
+  0%{opacity:0;transform:translateY(-10vh) rotate(0deg)}
+  10%{opacity:.35}90%{opacity:.15}
+  100%{opacity:0;transform:translateY(110vh) rotate(720deg)}
 }
 </style>
 </head>
 <body>
 
-<header class="dash-header">
-  <div>
-    <h1>Rightman & Patience</h1>
-    <p>RSVP Dashboard &nbsp;·&nbsp; 01 July 2026 &nbsp;·&nbsp; Kigali, Rwanda</p>
-  </div>
-  <div class="header-right">
-    <div class="live-badge"><span class="live-dot"></span>Live</div>
-    <a href="index.html" class="back-link">← Invitation</a>
-  </div>
-</header>
+<div id="prog"></div>
+<canvas id="starfield"></canvas>
 
-<main class="dash-main">
+<nav class="sidenav">
+  <a href="#cover"     class="on" title="Cover"></a>
+  <a href="#countdown" title="Countdown"></a>
+  <a href="#poem"      title="Story"></a>
+  <a href="#proposal"  title="Proposal"></a>
+  <a href="#invite"    title="Invitation"></a>
+  <a href="#maptour"   title="Venues"></a>
+  <a href="#rsvp"      title="RSVP"></a>
+</nav>
+<nav class="bottom-nav" id="bottomNav">
+  <a href="#cover"     class="on" title="Cover"></a>
+  <a href="#countdown" title="Countdown"></a>
+  <a href="#poem"      title="Story"></a>
+  <a href="#proposal"  title="Proposal"></a>
+  <a href="#invite"    title="Invitation"></a>
+  <a href="#maptour"   title="Venues"></a>
+  <a href="#rsvp"      title="RSVP"></a>
+</nav>
 
-  <div class="status-bar">
-    <span class="status-text" id="lastUpdated">Loading responses…</span>
-    <span class="status-text" id="countdown"></span>
+<!-- Petals -->
+<script>
+;(function(){
+  const g=['✦','✧','·','⋆','∘'];
+  for(let i=0;i<16;i++){
+    const p=document.createElement('div');
+    p.className='petal';
+    p.textContent=g[i%g.length];
+    p.style.cssText=`left:${Math.random()*100}vw;color:${Math.random()>.5?'rgba(255,255,255,0.5)':'rgba(200,223,192,0.5)'};font-size:${.4+Math.random()*.7}rem;animation-duration:${14+Math.random()*18}s;animation-delay:${Math.random()*20}s;`;
+    document.body.appendChild(p);
+  }
+})();
+</script>
+
+<!-- ══ COVER ══ -->
+<section id="cover">
+  <img class="cover-photo"
+    src="Background.jpeg"
+    alt="Rightman and Patience"/>
+  <div class="cover-vignette"></div>
+  <div class="grain"></div>
+  <div class="cover-inner">
+    <p class="cover-date">A Map to our Love Story</p>
+    <h1 class="cover-names">
+      Rightman
+      <span class="amp">&</span>
+      Patience
+    </h1>
+    <p class="cover-tagline">
+      Every great love has coordinates.<br/>
+      A first look. A first laugh.<br/>
+      A question asked on trembling ground.<br/>
+      <em>This is the map of ours.</em>
+    </p>
+    <a href="#countdown" class="cover-scroll-hint">Begin the journey</a>
   </div>
+</section>
 
-  <div class="stats-grid" id="statsGrid">
-    <div class="stat-card">
-      <span class="skeleton" style="width:55%;margin-bottom:.8rem"></span>
-      <span class="skeleton" style="width:35%;height:2.8rem"></span>
-    </div>
-    <div class="stat-card">
-      <span class="skeleton" style="width:55%;margin-bottom:.8rem"></span>
-      <span class="skeleton" style="width:35%;height:2.8rem"></span>
-    </div>
-    <div class="stat-card">
-      <span class="skeleton" style="width:55%;margin-bottom:.8rem"></span>
-      <span class="skeleton" style="width:35%;height:2.8rem"></span>
-    </div>
-    <div class="stat-card">
-      <span class="skeleton" style="width:55%;margin-bottom:.8rem"></span>
-      <span class="skeleton" style="width:35%;height:2.8rem"></span>
-    </div>
-  </div>
+<!-- ══ COUNTDOWN ══ -->
+<section class="panel" id="countdown">
+  <div class="cd-inner">
+    <p class="cd-label rv">The day is coming</p>
+    <h2 class="cd-title rv">Counting Every Heartbeat</h2>
+    <p class="cd-date-text rv">Wednesday, 1st July 2026</p>
 
-  <p class="section-title">Attendance Per Event</p>
-  <div class="events-grid" id="eventsGrid">
-    <div class="event-card"><span class="skeleton" style="width:50px;height:50px;flex-shrink:0"></span><div style="flex:1"><span class="skeleton" style="margin-bottom:.5rem"></span><span class="skeleton" style="width:60%"></span></div></div>
-    <div class="event-card"><span class="skeleton" style="width:50px;height:50px;flex-shrink:0"></span><div style="flex:1"><span class="skeleton" style="margin-bottom:.5rem"></span><span class="skeleton" style="width:60%"></span></div></div>
-    <div class="event-card"><span class="skeleton" style="width:50px;height:50px;flex-shrink:0"></span><div style="flex:1"><span class="skeleton" style="margin-bottom:.5rem"></span><span class="skeleton" style="width:60%"></span></div></div>
-  </div>
-
-  <div class="table-wrap">
-    <div class="table-head">
-      <h3>All Responses</h3>
-      <div class="table-actions">
-        <button class="dash-btn" onclick="load()">↻ Refresh</button>
-        <button class="dash-btn" onclick="exportCSV()">↓ Export CSV</button>
+    <div class="cd-tiles">
+      <div class="cd-tile rv">
+        <div class="cd-box"><span class="cd-num" id="cd-days">00</span></div>
+        <span class="cd-unit">Days</span>
+      </div>
+      <div class="cd-tile rv">
+        <div class="cd-box"><span class="cd-num" id="cd-hours">00</span></div>
+        <span class="cd-unit">Hours</span>
+      </div>
+      <div class="cd-tile rv">
+        <div class="cd-box"><span class="cd-num" id="cd-mins">00</span></div>
+        <span class="cd-unit">Minutes</span>
+      </div>
+      <div class="cd-tile rv">
+        <div class="cd-box"><span class="cd-num" id="cd-secs">00</span></div>
+        <span class="cd-unit">Seconds</span>
       </div>
     </div>
-    <div id="tableArea" class="table-scroll">
-      <div class="empty-state">Loading…</div>
+
+    <span class="cd-heart">♥</span>
+  </div>
+</section>
+
+<!-- ══ POEM ══ -->
+<section class="panel" id="poem">
+  <p class="chapter-label">Chapter I — The Beginning</p>
+  <div class="poem-wrap">
+    <span class="poem-line rv" style="transition-delay:0s"><em>Rightman and Patience did not plan to fall in love.</em></span>
+    <span class="poem-line rv" style="transition-delay:.15s"><em>Most people don't.</em></span>
+    <span class="poem-line rv" style="transition-delay:.3s"><em>It happened the way seasons change —</em></span>
+    <span class="poem-line rv" style="transition-delay:.45s"><em>gradually, then all at once.</em></span>
+    <span class="star-glyph rv" style="transition-delay:.6s">✦</span>
+    <span class="poem-line rv" style="transition-delay:.75s"><em>This map is not just geography.</em></span>
+    <span class="poem-line rv" style="transition-delay:.9s"><em>It is memory made visible.</em></span>
+    <span class="poem-line rv" style="transition-delay:1.05s"><em>Every pin, a heartbeat.</em></span>
+    <span class="poem-line rv" style="transition-delay:1.2s"><em>Every place, a page of something</em></span>
+    <span class="poem-line rv" style="transition-delay:1.35s"><em>neither of them could have written alone.</em></span>
+    <span class="poem-bold rv" style="transition-delay:1.5s">Walk with them.<br/>From the first hello — to forever.</span>
+
+    <!-- Childhood photos -->
+    <div class="childhood-strip">
+      <div class="cs-item rv" style="transition-delay:1.7s">
+        <img class="cs-photo" src="Boy_Childhood.jpeg" alt="Young Rightman"/>
+        <span class="cs-name">Rightman</span>
+      </div>
+      <div class="cs-item rv" style="transition-delay:1.9s">
+        <img class="cs-photo" src="Girl_Childhood.jpeg" alt="Young Patience"/>
+        <span class="cs-name">Patience</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FIRST HELLO PANEL ══ -->
+<div class="firsthello-panel" id="firsthello">
+  <div class="fh-half">
+    <img src="Love_first_sight.jpeg" alt="Love at First Sight"/>
+    <div class="fh-overlay"></div>
+    <div class="fh-caption">
+      <span class="fh-label">Something changed</span>
+      <span class="fh-name">Love at first sight</span>
+    </div>
+  </div>
+  <div class="fh-divider"></div>
+  <div class="fh-center-label"><span>&</span></div>
+  <div class="fh-half">
+    <img src="FirstHello.jpeg" alt="The First Hello"/>
+    <div class="fh-overlay"></div>
+    <div class="fh-caption">
+      <span class="fh-label">Their story begins</span>
+      <span class="fh-name">The First Hello</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROPOSAL PHOTO ══ -->
+<section class="proposal-panel" id="proposal">
+  <img class="proposal-img" src="Proposal.jpeg" alt="The Proposal"/>
+  <div class="proposal-overlay"></div>
+  <div class="proposal-caption">
+    <span class="p-label rv">The Proposal</span>
+    <div class="p-title rv d1">She said yes<br/>before he finished<br/>asking.</div>
+  </div>
+</section>
+
+<!-- ══ CIVIL CEREMONY ══ -->
+<div class="civil-panel" id="civil">
+  <img class="civil-img" src="Civil.jpeg" alt="The Civil Ceremony"/>
+  <div class="civil-overlay"></div>
+  <div class="civil-caption">
+    <span class="cv-label rv">Before the Church</span>
+    <div class="cv-title rv">The Civil Ceremony</div>
+    <p class="cv-sub rv">They made it official — pen on paper,<br/>hearts on the line.<br/>The state said yes before the church could ask.</p>
+  </div>
+</div>
+
+<!-- ══ INVITE ══ -->
+<section class="panel" id="invite">
+  <p class="chapter-label">Chapter II — The Promise</p>
+  <div class="invite-inner">
+    <span class="big-quote">"</span>
+    <p class="invite-text rv">
+      They decided to tie the knot —<br/>
+      to fulfil nature's oldest promise.<br/>
+      And they would gladly have you<br/>witness their forever.
+    </p>
+    <p class="invite-names rv">Rightman <em style="color:var(--gold);font-weight:400">&</em> Patience</p>
+    <p class="invite-text rv" style="transition-delay:.3s;font-size:1rem;color:rgba(255,255,255,.4)">
+      request the honour of your presence
+    </p>
+  </div>
+</section>
+
+<!-- ══ MAP TOUR ══ -->
+<section id="maptour">
+  <p class="chapter-label" style="position:relative;top:auto;left:auto;transform:none;text-align:center;padding:3rem 0 0;display:block">Chapter III — The Journey</p>
+  <div class="map-header">
+    <span class="sub">Wedding Venues · Kigali, Rwanda</span>
+    <h2>Follow the Story on the Map</h2>
+  </div>
+
+  <div class="map-body">
+    <!-- LEFT: venue sidebar -->
+    <div class="venue-sidebar" id="venueCards">
+
+      <div class="vcard rv active-venue" id="vc0" onclick="flyToVenue(0)">
+        <img class="vcard-thumb"
+          src="Dowry.jpg"
+          alt="Green Jade Garden"/>
+        <div class="vcard-num">01</div>
+        <span class="vcard-tag">Dowry Ceremony</span>
+        <h3>Green Jade Garden</h3>
+        <div class="vcard-desc">
+          The story begins here — where two families meet, blessings are exchanged, and a bride is honoured with love and tradition. Nestled in Kicukiro, this garden has witnessed countless beginnings.
+        </div>
+        <div class="vcard-coords">Kicukiro, Kigali · -1.9998° S, 30.0861° E</div>
+      </div>
+
+      <div class="vcard rv" id="vc1" onclick="flyToVenue(1)">
+        <img class="vcard-thumb"
+          src="Church.png"
+          alt="Christian Church Assembly"/>
+        <div class="vcard-num">02</div>
+        <span class="vcard-tag">Wedding Ceremony</span>
+        <h3>Christian Church Assembly</h3>
+        <div class="vcard-desc">
+          In the presence of God and those they love, Rightman and Patience will speak their vows. A solemn and joyful moment — where two hearts become one before heaven and earth.
+        </div>
+        <div class="vcard-coords">Gasabo, Kigali · -1.9475° S, 30.1055° E</div>
+      </div>
+
+      <div class="vcard rv" id="vc2" onclick="flyToVenue(2)">
+        <img class="vcard-thumb"
+          src="Reception.jpg"
+          alt="Green Jade Garden Reception"/>
+        <div class="vcard-num">03</div>
+        <span class="vcard-tag">Wedding Reception</span>
+        <h3>Green Jade Garden</h3>
+        <div class="vcard-desc">
+          The celebration returns to where it all began. Dinner, dancing, laughter, and the first moments of a shared life — the night belongs to love, and you are invited to be part of it.
+        </div>
+        <div class="vcard-coords">Kicukiro, Kigali · -1.9998° S, 30.0861° E</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: map -->
+    <div id="gmap">
+      <iframe id="gmapFrame" width="100%" height="100%" style="border:0"
+        loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=-1.999818630668812,30.086063782944066&t=k&z=17&output=embed">
+      </iframe>
+    </div>
+
+    <!-- Canvas route overlay (shown during tour animation) -->
+    <div id="svgMapWrap" style="display:none;position:absolute;top:0;left:300px;right:0;bottom:0;">
+      <canvas id="routeCanvas" style="width:100%;height:100%;display:block"></canvas>
     </div>
   </div>
 
-</main>
+  <!-- Tour controls bar -->
+  <div class="tour-controls">
+    <button class="tour-btn" id="tourBtn" onclick="startTour()">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      Play Venue Tour
+    </button>
+    <span class="tour-status" id="tourStatus">Click a venue to explore · or Play to animate the full journey</span>
+  </div>
 
-<footer class="dash-footer">
-  Rightman & Patience &nbsp;·&nbsp; 01 July 2026 &nbsp;·&nbsp; Kigali, Rwanda
+</section>
+
+<!-- ══ RSVP ══ -->
+<section class="panel" id="rsvp">
+  <p class="chapter-label">Chapter IV — Your Place in the Story</p>
+  <div class="rsvp-wrap">
+    <div class="rsvp-frame">
+      <p class="rsvp-eyebrow rv">Reserve your seat</p>
+      <h2 class="rsvp-title rv">Will you be there?</h2>
+      <p class="rsvp-sub rv"><em>Rightman & Patience would be honoured<br/>to have you witness their forever.</em></p>
+      <iframe
+        src="https://survey123.arcgis.com/share/733f53ff297945c48f81e4a92ab9f501"
+        width="100%" height="620"
+        frameborder="0" marginheight="0" marginwidth="0"
+        style="border:none;display:block;background:transparent;">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-names">Rightman & Patience</span>
+  <p class="footer-line">A Map to our Love Story &nbsp;·&nbsp; <span>Forever begins here</span></p>
 </footer>
 
 <script>
-const ITEM_ID = '733f53ff297945c48f81e4a92ab9f501';
-const PORTAL  = 'https://www.arcgis.com';
-
-let allData   = [];  // cached for CSV export
-let tick      = 60;
-let tickTimer = null;
-
-/* ── utils ── */
-const $  = id => document.getElementById(id);
-const pad = n  => String(n).padStart(2,'0');
-
-function guestCount(val){
-  if(!val) return 1;
-  const m = String(val).match(/\((\d+)\)/);
-  return m ? parseInt(m[1]) : 1;
-}
-
-function isYes(val){
-  return val && String(val).toLowerCase().includes('yes');
-}
-
-function pillClass(val){
-  return isYes(val) ? 'pill-yes' : 'pill-no';
-}
-
-/* find field name by partial keyword match */
-function findField(keys, ...words){
-  return keys.find(k =>
-    words.some(w => k.toLowerCase().includes(w.toLowerCase()))
-  ) || null;
-}
-
-/* ── skeleton helper ── */
-function skeletonCards(n){
-  return Array(n).fill(0).map(()=>`
-    <div class="stat-card">
-      <span class="skeleton" style="width:55%;margin-bottom:.8rem"></span>
-      <span class="skeleton" style="width:35%;height:2.8rem"></span>
-    </div>`).join('');
-}
-
-/* ── main load ── */
-async function load(){
-  try {
-    /* Step 1: find the feature service through related items */
-    const relUrl = `${PORTAL}/sharing/rest/content/items/${ITEM_ID}/relatedItems` +
-                   `?relationshipType=Survey2Service&direction=forward&f=json`;
-    const relJson = await fetch(relUrl).then(r => r.json());
-
-    if(!relJson.relatedItems || !relJson.relatedItems.length)
-      throw new Error(
-        'Feature service not found.<br/>In Survey123 → Share, set the results layer to <code>Everyone (public)</code>.'
-      );
-
-    const svcUrl = relJson.relatedItems[0].url;
-
-    /* Step 2: query all features */
-    const qUrl = `${svcUrl}/0/query?where=1%3D1&outFields=*&returnGeometry=false` +
-                 `&orderByFields=objectid+DESC&resultRecordCount=1000&f=json`;
-    const data  = await fetch(qUrl).then(r => r.json());
-
-    if(data.error) throw new Error(data.error.message || 'Query error.');
-
-    render(data);
-
-  } catch(err){
-    $('statsGrid').innerHTML   = '';
-    $('eventsGrid').innerHTML  = '';
-    $('tableArea').innerHTML   = `
-      <div class="error-card">
-        <h3>Could not load responses</h3>
-        <p>${err.message}<br/><br/>
-        Once you enable public access the dashboard will load automatically.</p>
-      </div>`;
-    $('lastUpdated').textContent = 'Failed · ' + new Date().toLocaleTimeString();
-  }
-}
-
-/* ── render ── */
-function render(data){
-  const features = data.features || [];
-  const attrs    = features.map(f => f.attributes);
-  allData        = attrs;  // cache for export
-
-  /* detect field names from first record's keys */
-  const keys = attrs.length ? Object.keys(attrs[0]) : [];
-
-  const fFirst = findField(keys,'first_name','firstname','first');
-  const fLast  = findField(keys,'last_name','lastname','last');
-  const fEmail = findField(keys,'email');
-  const fPhone = findField(keys,'phone');
-  const fAtt   = findField(keys,'attendance','attend');
-  const fGuest = findField(keys,'guests','guest','number_of_guest');
-  const fMsg   = findField(keys,'message','wish','note');
-
-  /* ── counts ── */
-  const total    = attrs.length;
-  const yesAll   = attrs.filter(a => fAtt && /all events/i.test(a[fAtt]||''));
-  const yesChurch= attrs.filter(a => fAtt && /church only/i.test(a[fAtt]||''));
-  const yesRecep = attrs.filter(a => fAtt && /reception only/i.test(a[fAtt]||''));
-  const no       = attrs.filter(a => fAtt && !isYes(a[fAtt]));
-  const confirmed= total - no.length;
-
-  const totalGuests = attrs.reduce((s,a)=>s + guestCount(fGuest ? a[fGuest] : null),0);
-
-  const dowryCount   = yesAll.length;
-  const churchCount  = yesAll.length + yesChurch.length;
-  const recepCount   = yesAll.length + yesRecep.length;
-  const maxCount     = Math.max(dowryCount, churchCount, recepCount, 1);
-
-  /* ── stat cards ── */
-  $('statsGrid').innerHTML = [
-    {label:'Total RSVPs',      num:total,       sub:'responses received',          accent:false},
-    {label:'Confirmed',        num:confirmed,   sub:'attending one or more events', accent:true},
-    {label:'Not Attending',    num:no.length,   sub:'regretfully unable to come',   accent:false},
-    {label:'Expected Guests',  num:totalGuests, sub:'total people attending',       accent:false},
-  ].map(s=>`
-    <div class="stat-card">
-      <span class="stat-label">${s.label}</span>
-      <span class="stat-num">${pad(s.num)}</span>
-      <span class="stat-sub">${s.sub}</span>
-    </div>`).join('');
-
-  /* ── event breakdown ── */
-  $('eventsGrid').innerHTML = [
-    {icon:'🐄', name:'Introduction & Dowry', time:'08:30 AM · Green Jade Rebero', count:dowryCount},
-    {icon:'⛪', name:'Church Ceremony',       time:'02:00 PM · CLA Nyarutarama',   count:churchCount},
-    {icon:'🥂', name:'Reception',            time:'04:30 PM · Green Jade Rebero', count:recepCount},
-  ].map(e=>`
-    <div class="event-card">
-      <div class="event-icon">${e.icon}</div>
-      <div class="event-info">
-        <div class="event-name">${e.name}</div>
-        <div class="event-time">${e.time}</div>
-        <div class="event-bar-wrap">
-          <div class="event-bar" id="bar-${e.icon}" style="width:0%"></div>
-        </div>
-      </div>
-      <div class="event-count">${pad(e.count)}</div>
-    </div>`).join('');
-
-  /* animate bars after paint */
-  requestAnimationFrame(()=>{
-    [
-      {icon:'🐄',count:dowryCount},
-      {icon:'⛪',count:churchCount},
-      {icon:'🥂',count:recepCount},
-    ].forEach(e=>{
-      const bar = document.getElementById('bar-'+e.icon);
-      if(bar) bar.style.width = (e.count/maxCount*100).toFixed(1)+'%';
-    });
+/* ══ STARFIELD ══ */
+(function(){
+  const c=document.getElementById('starfield');
+  const ctx=c.getContext('2d');
+  let W,H,stars=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<200;i++) stars.push({
+    x:Math.random()*3000,y:Math.random()*3000,
+    r:.2+Math.random()*.9,o:Math.random(),
+    sp:Math.random()*.004+.001,gold:Math.random()>.65
   });
+  let t=0,rafId=null;
+  function draw(){
+    ctx.clearRect(0,0,W,H);t+=.008;
+    stars.forEach(s=>{
+      s.o=.15+.7*(Math.sin(t*s.sp*80+s.x)*.5+.5);
+      ctx.beginPath();
+      ctx.arc(s.x%W,s.y%H,s.r,0,Math.PI*2);
+      ctx.fillStyle=s.gold?`rgba(255,255,255,${s.o})`:`rgba(255,255,255,${s.o*.5})`;
+      ctx.fill();
+    });
+    rafId=requestAnimationFrame(draw);
+  }
+  draw();
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){cancelAnimationFrame(rafId);rafId=null;}
+    else if(!rafId){draw();}
+  });
+})();
 
-  /* ── table ── */
-  if(!attrs.length){
-    $('tableArea').innerHTML = `<div class="empty-state">No responses yet — check back soon.</div>`;
-  } else {
-    const cols = [
-      {label:'#',          key:'_idx'},
-      {label:'Name',       key:'_name'},
-      fEmail && {label:'Email',    key:fEmail},
-      fPhone && {label:'Phone',    key:fPhone},
-      fAtt   && {label:'Attendance',key:fAtt},
-      fGuest && {label:'Guests',   key:fGuest},
-    ].filter(Boolean);
+/* ══ SCROLL PROGRESS + NAV ══ */
+const prog=document.getElementById('prog');
+const navDots=document.querySelectorAll('.sidenav a');
+const bottomDots=document.querySelectorAll('.bottom-nav a');
+const secIds=['cover','countdown','poem','proposal','invite','maptour','rsvp'];
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  prog.style.width=pct+'%';
+  secIds.forEach((id,i)=>{
+    const el=document.getElementById(id);if(!el)return;
+    const r=el.getBoundingClientRect();
+    if(r.top<=window.innerHeight*.5&&r.bottom>=window.innerHeight*.5){
+      navDots.forEach(d=>d.classList.remove('on'));
+      bottomDots.forEach(d=>d.classList.remove('on'));
+      if(navDots[i])navDots[i].classList.add('on');
+      if(bottomDots[i])bottomDots[i].classList.add('on');
+    }
+  });
+});
 
-    $('tableArea').innerHTML = `
-      <table>
-        <thead>
-          <tr>${cols.map(c=>`<th>${c.label}</th>`).join('')}</tr>
-        </thead>
-        <tbody>
-          ${attrs.map((a,i)=>{
-            const name = [fFirst&&a[fFirst],fLast&&a[fLast]].filter(Boolean).join(' ')||'—';
-            return `<tr>${cols.map(c=>{
-              let val = '';
-              if(c.key==='_idx')  val = attrs.length - i;
-              else if(c.key==='_name') val = name;
-              else val = a[c.key] != null ? a[c.key] : '—';
+/* ══ INTERSECTION REVEAL ══ */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.poem-line,.star-glyph,.poem-bold,.invite-text,.invite-names,.vcard,.cd-label,.cd-title,.cd-date-text,.cd-tile,.rsvp-eyebrow,.rsvp-title,.rsvp-sub,.p-label,.p-title,.cs-item,.cv-label,.cv-title,.cv-sub').forEach(el=>io.observe(el));
 
-              const isAtt = c.key === fAtt;
-              const cell  = isAtt
-                ? `<span class="pill ${pillClass(val)}">${val}</span>`
-                : val;
-              return `<td data-label="${c.label}">${cell}</td>`;
-            }).join('')}</tr>`;
-          }).join('')}
-        </tbody>
-      </table>`;
+/* ══ COUNTDOWN ══ */
+(function(){
+  const target=new Date('2026-07-01T08:00:00+02:00'); /* Kigali UTC+2 */
+  const els={
+    d:document.getElementById('cd-days'),
+    h:document.getElementById('cd-hours'),
+    m:document.getElementById('cd-mins'),
+    s:document.getElementById('cd-secs')
+  };
+  let prev={d:'',h:'',m:'',s:''};
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){
+    const now=new Date();
+    const diff=target-now;
+    if(diff<=0){
+      Object.values(els).forEach(el=>{el.textContent='00'});
+      return;
+    }
+    const d=Math.floor(diff/86400000);
+    const h=Math.floor((diff%86400000)/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    const s=Math.floor((diff%60000)/1000);
+    const cur={d:pad(d),h:pad(h),m:pad(m),s:pad(s)};
+    ['d','h','m','s'].forEach(k=>{
+      if(cur[k]!==prev[k]){
+        els[k].textContent=cur[k];
+        els[k].classList.remove('tick');
+        void els[k].offsetWidth;
+        els[k].classList.add('tick');
+      }
+    });
+    prev=cur;
+  }
+  tick();setInterval(tick,1000);
+})();
+
+/* ══ MAP TOUR ══ */
+const venues=[
+  {lat:-1.999818630668812, lng:30.086063782944066, name:'Green Jade Garden — Dowry',     idx:0},
+  {lat:-1.9475298389477895,lng:30.10545529682947,  name:'Christian Church Assembly',     idx:1},
+  {lat:-1.999818630668812, lng:30.086063782944066, name:'Reception · Green Jade Garden', idx:2}
+];
+
+function gmapSatURL(lat,lng,zoom=17){
+  return `https://maps.google.com/maps?q=${lat},${lng}&t=k&z=${zoom}&output=embed`;
+}
+
+let tourRunning=false;
+let routeAnim=null;
+
+function setActiveVenue(idx){
+  document.querySelectorAll('.vcard').forEach((el,i)=>{
+    el.classList.toggle('active-venue', i===idx);
+  });
+}
+
+const PIN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" viewBox="0 0 24 28" fill="none" style="vertical-align:middle;margin-right:6px;flex-shrink:0"><path d="M12 0C7.13 0 3 4.13 3 9c0 6.75 9 19 9 19s9-12.25 9-19c0-4.87-4.13-9-9-9z" fill="#ffffff"/><circle cx="12" cy="9" r="3.5" fill="#526643"/></svg>`;
+
+const venueLabels=[
+  'Green Jade Garden — Dowry Ceremony',
+  'Christian Church Assembly — Wedding Ceremony',
+  'Green Jade Garden — Wedding Reception'
+];
+
+function flyToVenue(idx){
+  const v=venues[idx];
+  document.getElementById('gmapFrame').src=gmapSatURL(v.lat,v.lng,17);
+  document.getElementById('gmap').style.display='block';
+  document.getElementById('svgMapWrap').style.display='none';
+  setActiveVenue(idx);
+  document.getElementById('tourStatus').innerHTML=`${PIN_SVG}<span>${venueLabels[idx]}</span>`;
+}
+
+/* ── Animated route canvas ── */
+function drawRoute(progress){
+  const wrap=document.getElementById('svgMapWrap');
+  const canvas=document.getElementById('routeCanvas');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width=wrap.offsetWidth||600;
+  const H=canvas.height=wrap.offsetHeight||400;
+
+  const allLat=venues.map(v=>v.lat);
+  const allLng=venues.map(v=>v.lng);
+  const pad=.006;
+  const minLat=Math.min(...allLat)-pad, maxLat=Math.max(...allLat)+pad;
+  const minLng=Math.min(...allLng)-pad*2, maxLng=Math.max(...allLng)+pad*2;
+
+  function toXY(lat,lng){
+    const x=(lng-minLng)/(maxLng-minLng)*W*.82+W*.09;
+    const y=(1-(lat-minLat)/(maxLat-minLat))*H*.78+H*.11;
+    return[x,y];
   }
 
-  $('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+  ctx.clearRect(0,0,W,H);
+
+  // Dark satellite-style bg
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#3d5030'); bg.addColorStop(1,'#2d3e22');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;
+  for(let i=1;i<8;i++){
+    ctx.beginPath();ctx.moveTo(W*i/8,0);ctx.lineTo(W*i/8,H);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,H*i/8);ctx.lineTo(W,H*i/8);ctx.stroke();
+  }
+
+  const pts=venues.map(v=>toXY(v.lat,v.lng));
+
+  // Dashed guide
+  ctx.setLineDash([4,10]);ctx.strokeStyle='rgba(255,255,255,.1)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(...pts[0]);pts.slice(1).forEach(p=>ctx.lineTo(...p));ctx.stroke();
+  ctx.setLineDash([]);
+
+  if(progress>0){
+    const segs=pts.length-1;
+    const totalP=progress*segs;
+    const grad=ctx.createLinearGradient(...pts[0],...pts[pts.length-1]);
+    grad.addColorStop(0,'rgba(61,80,48,.95)');
+    grad.addColorStop(.5,'rgba(255,255,255,.95)');
+    grad.addColorStop(1,'rgba(255,255,255,.95)');
+    ctx.strokeStyle=grad;ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(...pts[0]);
+    for(let s=0;s<segs;s++){
+      const sp=Math.min(1,Math.max(0,totalP-s));if(sp<=0)break;
+      const tx=pts[s][0]+(pts[s+1][0]-pts[s][0])*sp;
+      const ty=pts[s][1]+(pts[s+1][1]-pts[s][1])*sp;
+      ctx.lineTo(tx,ty);
+    }
+    ctx.stroke();
+
+    // Moving dot
+    const cs=Math.min(segs-1,Math.floor(totalP));
+    const cf=totalP-cs;
+    const nx=Math.min(cs+1,pts.length-1);
+    const hx=pts[cs][0]+(pts[nx][0]-pts[cs][0])*cf;
+    const hy=pts[cs][1]+(pts[nx][1]-pts[cs][1])*cf;
+    const grd=ctx.createRadialGradient(hx,hy,0,hx,hy,18);
+    grd.addColorStop(0,'rgba(255,255,255,.45)');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(hx,hy,18,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(hx,hy,4.5,0,Math.PI*2);ctx.fill();
+  }
+
+  // Venue markers
+  const labels=['Dowry','Church','Reception'];
+  venues.forEach((v,i)=>{
+    const[x,y]=pts[i];
+    const reached=progress>=(i/(venues.length-1));
+    // Pulse ring
+    ctx.beginPath();ctx.arc(x,y,14,0,Math.PI*2);
+    ctx.strokeStyle=reached?'rgba(255,255,255,.7)':'rgba(255,255,255,.15)';
+    ctx.lineWidth=1;ctx.stroke();
+    // Dot
+    ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);
+    ctx.fillStyle=i===0?'rgba(61,80,48,.9)':reached?'#ffffff':'rgba(255,255,255,.2)';
+    ctx.fill();
+    // Number
+    ctx.fillStyle=reached?'#526643':'rgba(255,255,255,.5)';
+    ctx.font=`bold ${Math.max(11,W*.015)}px serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.shadowColor='rgba(0,0,0,.5)';ctx.shadowBlur=4;
+    ctx.fillText(i+1,x,y);
+    // Label
+    ctx.shadowBlur=0;
+    ctx.fillStyle=reached?'rgba(255,255,255,.9)':'rgba(255,255,255,.3)';
+    ctx.font=`${Math.max(11,W*.013)}px "Tenor Sans",sans-serif`;
+    ctx.textBaseline='alphabetic';
+    ctx.shadowColor='rgba(0,0,0,.6)';ctx.shadowBlur=5;
+    ctx.fillText(labels[i],x,y>H/2?y-20:y+28);
+    ctx.shadowBlur=0;
+  });
 }
 
-/* ── CSV export ── */
-function exportCSV(){
-  if(!allData.length){ alert('No data to export yet.'); return; }
-  const keys  = Object.keys(allData[0]);
-  const rows  = [keys.join(',')].concat(
-    allData.map(a => keys.map(k => {
-      const v = a[k] == null ? '' : String(a[k]).replace(/"/g,'""');
-      return `"${v}"`;
-    }).join(','))
-  );
-  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = `rsvp_${new Date().toISOString().slice(0,10)}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+function startTour(){
+  if(tourRunning)return;
+  tourRunning=true;
+  const btn=document.getElementById('tourBtn');
+  btn.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Playing…';
+  btn.disabled=true;
+
+  // Show canvas over map
+  const wrap=document.getElementById('svgMapWrap');
+  wrap.style.display='block';
+  document.getElementById('gmap').style.display='none';
+
+  let p=0;
+  const dur=4200;
+  const start=performance.now();
+  if(routeAnim)cancelAnimationFrame(routeAnim);
+
+  function frame(now){
+    p=Math.min(1,(now-start)/dur);
+    drawRoute(p);
+    if(p<.33)setActiveVenue(0);
+    else if(p<.66)setActiveVenue(1);
+    else setActiveVenue(2);
+    if(p<1){routeAnim=requestAnimationFrame(frame);}
+    else{
+      setTimeout(()=>{
+        wrap.style.display='none';
+        document.getElementById('gmap').style.display='block';
+        cycleMaps();
+      },700);
+    }
+  }
+  routeAnim=requestAnimationFrame(frame);
 }
 
-/* ── auto refresh every 60 s ── */
-function startTick(){
-  tick = 60;
-  clearInterval(tickTimer);
-  tickTimer = setInterval(()=>{
-    tick--;
-    $('countdown').textContent = `Auto-refresh in ${tick}s`;
-    if(tick <= 0){ load(); startTick(); }
-  }, 1000);
+function cycleMaps(){
+  let i=0;
+  const status=document.getElementById('tourStatus');
+  function next(){
+    if(i>=venues.length){
+      flyToVenue(0);
+      status.innerHTML=`${PIN_SVG}<span>Tour complete — click a venue to explore</span>`;
+      const btn=document.getElementById('tourBtn');
+      btn.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M8 5v14l11-7z"/></svg> Play Again';
+      btn.disabled=false;tourRunning=false;return;
+    }
+    flyToVenue(i);
+    i++;setTimeout(next,3500);
+  }
+  next();
 }
 
-load();
-startTick();
+window.addEventListener('load',()=>{
+  flyToVenue(0);
+});
+window.addEventListener('resize',()=>{
+  if(document.getElementById('svgMapWrap').style.display!=='none') drawRoute(1);
+});
+
+/* ══ RSVP ══ */
+async function sendRSVP(e){
+  e.preventDefault();
+  const form=e.target;
+  const btn=document.getElementById('rsvpBtn');
+  const ok=document.getElementById('formOk');
+  const span=btn.querySelector('span');
+  span.textContent='Sending…';btn.disabled=true;
+  try{
+    const res=await fetch(form.action,{
+      method:'POST',body:new FormData(form),
+      headers:{Accept:'application/json'}
+    });
+    if(res.ok){
+      span.textContent='✦  RSVP Received';
+      btn.style.borderColor='var(--rose2)';btn.style.color='var(--rose2)';
+      ok.style.display='block';form.reset();
+    }else{
+      span.textContent='Error — please try again';
+      btn.disabled=false;
+    }
+  }catch{
+    span.textContent='Error — please try again';
+    btn.disabled=false;
+  }
+}
 </script>
 </body>
 </html>
