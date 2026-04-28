@@ -4,13 +4,13 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Rightman & Patience — A Map to our Love Story</title>
-<meta property="og:title" content="Rightman & Patience — A Map to our Love Story"/>
+<title>Rightman & Patience — The Rightman's Experience</title>
+<meta property="og:title" content="Rightman & Patience — The Rightman's Experience"/>
 <meta property="og:description" content="Join us as we celebrate our wedding on 01 July 2026 in Kigali, Rwanda. Your presence will be highly appreciated."/>
 <meta property="og:image" content="Background.jpeg"/>
 <meta property="og:type" content="website"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Rightman & Patience — 01 July 2026"/>
+<meta name="twitter:title" content="Rightman & Patience — The Rightman's Experience"/>
 <meta name="twitter:description" content="A wedding celebration in Kigali, Rwanda. Walk with us from the first hello — to forever."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400;1,6..96,700&family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
@@ -103,7 +103,7 @@ body{
 }
 
 /* ════════════════════════════════
-             COVER
+   COVER — FULL SCREEN CINEMATIC
 ════════════════════════════════ */
 #cover{
   position:relative;
@@ -113,7 +113,7 @@ body{
   scroll-snap-align:start;
 }
 
-/* Photo */
+/* Photo — fills everything, bright and clear */
 .cover-photo{
   position:absolute;inset:0;
   width:100%;height:100%;
@@ -127,7 +127,7 @@ body{
 @keyframes photofade{from{opacity:0}to{opacity:1}}
 @keyframes photozoom{from{transform:scale(1.06)}to{transform:scale(1.0)}}
 
-/* Gradient */
+/* Gradient — only bottom third gets dark, rest stays clear */
 .cover-vignette{
   position:absolute;inset:0;z-index:1;
   background:
@@ -145,7 +145,7 @@ body{
     );
 }
 
-/* Gold line */
+/* Gold line — top edge */
 #cover::before{
   content:'';position:absolute;
   top:0;left:0;right:0;height:2px;
@@ -153,7 +153,7 @@ body{
   z-index:10;
 }
 
-/* Text block */
+/* Text block — bottom left, above the gradient */
 .cover-inner{
   position:relative;z-index:5;
   padding:0 5vw 5vh;
@@ -317,7 +317,7 @@ body{
   text-transform:uppercase;color:rgba(255,255,255,.85);
 }
 
-/* Heart SVG*/
+/* Heart pulse under countdown */
 .cd-heart{
   font-size:1.5rem;color:var(--rose);
   animation:heartbeat 1.4s ease infinite;
@@ -430,7 +430,7 @@ body{
   font-weight:400;font-style:italic;color:var(--ivory);
 }
 
-/* Main */
+/* Main map+sidebar layout */
 .map-body{
   display:grid;
   grid-template-columns:300px 1fr;
@@ -710,7 +710,7 @@ footer{
 }
 
 /* ════════════════════════════════
-   CHILDHOOD
+   CHILDHOOD STRIP
 ════════════════════════════════ */
 .childhood-strip{
   display:flex;gap:clamp(1.5rem,5vw,3rem);
@@ -739,7 +739,7 @@ footer{
 }
 
 /* ════════════════════════════════
-   HELLO
+   FIRST HELLO PANEL
 ════════════════════════════════ */
 .firsthello-panel{
   position:relative;height:100vh;min-height:500px;
@@ -871,6 +871,130 @@ footer{
   10%{opacity:.35}90%{opacity:.15}
   100%{opacity:0;transform:translateY(110vh) rotate(720deg)}
 }
+
+/* ── NOTE CARDS ── */
+.note-card{
+  max-width:500px;margin:0 auto 1.5rem;
+  padding:2rem 2.5rem;
+  border:1px solid rgba(255,255,255,.2);
+  text-align:center;position:relative;
+}
+.note-card::before,.note-card::after{
+  content:'';position:absolute;
+  width:14px;height:14px;
+  border-color:var(--rose2);border-style:solid;
+}
+.note-card::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.note-card::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.note-label{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.82rem;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--rose2);display:block;margin-bottom:1rem;
+}
+.note-body{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(1.1rem,2.5vw,1.5rem);
+  font-style:italic;font-weight:400;
+  color:var(--ivory);line-height:1.8;
+}
+
+/* ── FORMAL INVITATION CARD ── */
+.formal-card{
+  max-width:640px;width:100%;
+  padding:3rem 2rem;text-align:center;
+  position:relative;z-index:2;
+}
+.fc-families{
+  font-family:'Cormorant',serif;
+  font-size:clamp(.9rem,1.8vw,1.05rem);
+  line-height:2;color:rgba(255,255,255,.92);
+  margin-bottom:2rem;
+}
+.fc-families strong{font-weight:600}
+.fc-names{
+  display:flex;flex-direction:column;
+  align-items:center;gap:.6rem;
+  margin-bottom:1.8rem;
+}
+.fc-name-block{
+  display:flex;flex-direction:column;
+  align-items:center;gap:.15rem;
+}
+.fc-script{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2.4rem,6.5vw,4rem);
+  font-style:italic;font-weight:400;
+  color:#fff;line-height:1.05;
+}
+.fc-surname{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:clamp(.8rem,1.5vw,1rem);
+  letter-spacing:.45em;text-transform:uppercase;
+  color:rgba(255,255,255,.85);
+}
+.fc-amp{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(1.4rem,3.5vw,2.2rem);
+  font-style:italic;color:rgba(255,255,255,.75);
+  line-height:1.3;
+}
+.fc-date{
+  font-family:'Cormorant',serif;
+  font-size:clamp(1rem,2vw,1.2rem);
+  color:rgba(255,255,255,.85);
+  margin-bottom:2.5rem;letter-spacing:.05em;
+}
+.fc-date strong{font-weight:700;letter-spacing:.08em}
+.fc-timeline{
+  display:flex;flex-direction:column;
+  align-items:stretch;margin-bottom:2rem;width:100%;
+}
+.fc-tl-icons{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  margin-bottom:.5rem;
+}
+.fc-tl-icons span{text-align:center;font-size:1.8rem;line-height:1}
+.fc-tl-line{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 8%;position:relative;
+  margin-bottom:.8rem;
+}
+.fc-tl-line::before{
+  content:'';position:absolute;top:50%;
+  left:8%;right:8%;height:1px;
+  background:rgba(255,255,255,.45);
+  transform:translateY(-50%);
+}
+.fc-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#fff;position:relative;z-index:1;flex-shrink:0;
+}
+.fc-tl-venues{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;
+}
+.fc-vinfo{text-align:center;padding:0 .3rem}
+.fc-vinfo p{
+  font-family:'Cormorant',serif;
+  font-size:clamp(.82rem,1.5vw,.95rem);
+  color:rgba(255,255,255,.82);line-height:1.6;
+}
+.fc-time{
+  font-family:'Tenor Sans',sans-serif !important;
+  font-size:clamp(.78rem,1.4vw,.9rem) !important;
+  font-weight:700;letter-spacing:.08em;
+  color:#fff !important;margin-top:.2rem;
+}
+.fc-closing{
+  font-family:'Cormorant',serif;
+  font-size:clamp(1rem,2vw,1.2rem);
+  font-style:italic;color:rgba(255,255,255,.85);
+  letter-spacing:.05em;
+}
+@media(max-width:480px){
+  .fc-tl-icons span{font-size:1.3rem}
+  .fc-vinfo p{font-size:.75rem}
+}
 </style>
 </head>
 <body>
@@ -919,17 +1043,15 @@ footer{
   <div class="cover-vignette"></div>
   <div class="grain"></div>
   <div class="cover-inner">
-    <p class="cover-date">A Map to our Love Story</p>
+    <p class="cover-date">THE RIGHTMAN'S EXPERIENCE</p>
     <h1 class="cover-names">
       Rightman
       <span class="amp">&</span>
       Patience
     </h1>
     <p class="cover-tagline">
-      Every great love has coordinates.<br/>
-      A first look. A first laugh.<br/>
-      A question asked on trembling ground.<br/>
-      <em>This is the map of ours.</em>
+      We found love and now we say I do.<br/>
+      Join us as we begin our forever journey.
     </p>
     <a href="#countdown" class="cover-scroll-hint">Begin the journey</a>
   </div>
@@ -967,27 +1089,28 @@ footer{
 
 <!-- ══ POEM ══ -->
 <section class="panel" id="poem">
-  <p class="chapter-label">Chapter I — The Beginning</p>
+  <p class="chapter-label">Words from the Heart</p>
   <div class="poem-wrap">
-    <span class="poem-line rv" style="transition-delay:0s"><em>Rightman and Patience did not plan to fall in love.</em></span>
-    <span class="poem-line rv" style="transition-delay:.15s"><em>Most people don't.</em></span>
-    <span class="poem-line rv" style="transition-delay:.3s"><em>It happened the way seasons change —</em></span>
-    <span class="poem-line rv" style="transition-delay:.45s"><em>gradually, then all at once.</em></span>
-    <span class="star-glyph rv" style="transition-delay:.6s">✦</span>
-    <span class="poem-line rv" style="transition-delay:.75s"><em>This map is not just geography.</em></span>
-    <span class="poem-line rv" style="transition-delay:.9s"><em>It is memory made visible.</em></span>
-    <span class="poem-line rv" style="transition-delay:1.05s"><em>Every pin, a heartbeat.</em></span>
-    <span class="poem-line rv" style="transition-delay:1.2s"><em>Every place, a page of something</em></span>
-    <span class="poem-line rv" style="transition-delay:1.35s"><em>neither of them could have written alone.</em></span>
-    <span class="poem-bold rv" style="transition-delay:1.5s">Walk with them.<br/>From the first hello — to forever.</span>
+
+    <div class="note-card rv" style="transition-delay:0s">
+      <span class="note-label">A Note to Her</span>
+      <p class="note-body">Thank you for your love and efforts.</p>
+    </div>
+
+    <span class="star-glyph rv" style="transition-delay:.4s">✦</span>
+
+    <div class="note-card rv" style="transition-delay:.6s">
+      <span class="note-label">A Note to Him</span>
+      <p class="note-body">Thank you for your consistence, patience and understanding.</p>
+    </div>
 
     <!-- Childhood photos -->
     <div class="childhood-strip">
-      <div class="cs-item rv" style="transition-delay:1.7s">
+      <div class="cs-item rv" style="transition-delay:1.0s">
         <img class="cs-photo" src="Boy_Childhood.jpeg" alt="Young Rightman"/>
         <span class="cs-name">Rightman</span>
       </div>
-      <div class="cs-item rv" style="transition-delay:1.9s">
+      <div class="cs-item rv" style="transition-delay:1.2s">
         <img class="cs-photo" src="Girl_Childhood.jpeg" alt="Young Patience"/>
         <span class="cs-name">Patience</span>
       </div>
@@ -1040,18 +1163,63 @@ footer{
 
 <!-- ══ INVITE ══ -->
 <section class="panel" id="invite">
-  <p class="chapter-label">Chapter II — The Promise</p>
-  <div class="invite-inner">
-    <span class="big-quote">"</span>
-    <p class="invite-text rv">
-      They decided to tie the knot —<br/>
-      to fulfil nature's oldest promise.<br/>
-      And they would gladly have you<br/>witness their forever.
+  <div class="grain"></div>
+  <div class="formal-card">
+
+    <p class="fc-families rv">
+      The families of <strong>Pr. Karani Amiel &amp; Pr. Mutangampundu Beatha</strong><br/>
+      and <strong>Munyakazi Augustine &amp; Pr. Munyakazi Kembabazi Epiphanie</strong><br/>
+      are pleased to invite you to the wedding celebration of their children:
     </p>
-    <p class="invite-names rv">Rightman <em style="color:var(--gold);font-weight:400">&</em> Patience</p>
-    <p class="invite-text rv" style="transition-delay:.3s;font-size:1rem;color:rgba(255,255,255,.4)">
-      request the honour of your presence
-    </p>
+
+    <div class="fc-names rv" style="transition-delay:.15s">
+      <div class="fc-name-block">
+        <span class="fc-script">Rightman</span>
+        <span class="fc-surname">MBABAZI</span>
+      </div>
+      <span class="fc-amp">&amp;</span>
+      <div class="fc-name-block">
+        <span class="fc-script">Patience</span>
+        <span class="fc-surname">UWERA</span>
+      </div>
+    </div>
+
+    <p class="fc-date rv" style="transition-delay:.3s">On <strong>01 July 2026</strong></p>
+
+    <div class="fc-timeline rv" style="transition-delay:.45s">
+      <div class="fc-tl-icons">
+        <span>🐄</span>
+        <span>⛪</span>
+        <span>🥂</span>
+      </div>
+      <div class="fc-tl-line">
+        <span class="fc-dot"></span>
+        <span class="fc-dot"></span>
+        <span class="fc-dot"></span>
+      </div>
+      <div class="fc-tl-venues">
+        <div class="fc-vinfo">
+          <p>Introduction &amp; dowry:</p>
+          <p>Green Jade Rebero</p>
+          <p>(KK 30 Ave)</p>
+          <p class="fc-time">08:30 AM</p>
+        </div>
+        <div class="fc-vinfo">
+          <p>Church:</p>
+          <p>Christian Life Assembly</p>
+          <p>(CLA) Nyarutarama</p>
+          <p class="fc-time">2:00 PM</p>
+        </div>
+        <div class="fc-vinfo">
+          <p>Reception:</p>
+          <p>Green Jade Rebero</p>
+          <p>(KK 30 Ave)</p>
+          <p class="fc-time">4:30 PM</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="fc-closing rv" style="transition-delay:.6s">Your presence will be highly appreciated!</p>
   </div>
 </section>
 
@@ -1086,7 +1254,7 @@ footer{
           alt="Christian Church Assembly"/>
         <div class="vcard-num">02</div>
         <span class="vcard-tag">Wedding Ceremony</span>
-        <h3>Christian Church Assembly</h3>
+        <h3>Christian Life Assembly (CLA)</h3>
         <div class="vcard-desc">
           In the presence of God and those they love, Rightman and Patience will speak their vows. A solemn and joyful moment — where two hearts become one before heaven and earth.
         </div>
@@ -1154,7 +1322,7 @@ footer{
 <!-- FOOTER -->
 <footer>
   <span class="footer-names">Rightman & Patience</span>
-  <p class="footer-line">A Map to our Love Story &nbsp;·&nbsp; <span>Forever begins here</span></p>
+  <p class="footer-line">The Rightman's Experience &nbsp;·&nbsp; <span>Forever begins here</span></p>
 </footer>
 
 <script>
@@ -1275,7 +1443,7 @@ const PIN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" 
 
 const venueLabels=[
   'Green Jade Garden — Dowry Ceremony',
-  'Christian Church Assembly — Wedding Ceremony',
+  'Christian Life Assembly (CLA) — Wedding Ceremony',
   'Green Jade Garden — Wedding Reception'
 ];
 
