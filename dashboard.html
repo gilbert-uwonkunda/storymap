@@ -333,6 +333,75 @@ tbody td{
   margin:2.5rem auto;
 }
 
+/* ── MESSAGES PANEL ── */
+.msg-panel{
+  background:var(--deep);
+  border:1px solid var(--border);
+  overflow:hidden;margin-bottom:2rem;
+}
+.msg-panel-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  gap:1rem;flex-wrap:wrap;
+}
+.msg-panel-head h3{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.1rem;font-style:italic;color:var(--gold);
+}
+.msg-count{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-left:.6rem;
+}
+.msg-search{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.18);
+  color:var(--gold);
+  font-family:'Cormorant',serif;font-size:1rem;
+  padding:.45rem 1rem;outline:none;
+  transition:border-color .3s;
+  min-width:220px;
+}
+.msg-search:focus{border-color:var(--accent)}
+.msg-search::placeholder{color:rgba(255,255,255,.28);font-style:italic}
+.msg-list{
+  max-height:360px;overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.12) transparent;
+}
+.msg-row{
+  padding:.75rem 1.5rem;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:1.2rem;align-items:baseline;
+  transition:background .2s;
+}
+.msg-row:last-child{border-bottom:none}
+.msg-row:hover{background:rgba(255,255,255,.04)}
+.msg-row-name{
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.msg-row-text{
+  font-family:'Cormorant',serif;
+  font-size:1rem;font-style:italic;
+  color:rgba(255,255,255,.85);line-height:1.6;
+}
+.msg-no-match{
+  padding:2rem;text-align:center;
+  font-family:'Tenor Sans',sans-serif;
+  font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+}
+@media(max-width:600px){
+  .msg-row{grid-template-columns:1fr;gap:.3rem}
+  .msg-search{min-width:140px;width:100%}
+}
+
 /* ── MOBILE ── */
 @media(max-width:640px){
   .dash-main{padding:1rem}
@@ -357,7 +426,7 @@ tbody td{
 <div id="gate">
   <div class="gate-box">
     <div class="gate-names">Rightman & Patience</div>
-    <div class="gate-sub">RSVP Dashboard &nbsp;·&nbsp;</div>
+    <div class="gate-sub">RSVP Dashboard &nbsp;·&nbsp; Family Access Only</div>
     <div class="gate-divider"></div>
     <label class="gate-label" for="gateInput">Enter password to continue</label>
     <input id="gateInput" class="gate-input" type="password" placeholder="••••••••" autocomplete="off"/>
@@ -410,6 +479,17 @@ tbody td{
     <div class="event-card"><span class="skeleton" style="width:50px;height:50px;flex-shrink:0"></span><div style="flex:1"><span class="skeleton" style="margin-bottom:.5rem"></span><span class="skeleton" style="width:60%"></span></div></div>
   </div>
 
+  <div class="msg-panel" id="msgPanel" style="display:none">
+    <div class="msg-panel-head">
+      <div>
+        <h3>Messages from Guests ✦<span class="msg-count" id="msgCount"></span></h3>
+      </div>
+      <input class="msg-search" id="msgSearch" type="text"
+        placeholder="Search by name…" oninput="filterMessages()"/>
+    </div>
+    <div class="msg-list" id="messagesArea"></div>
+  </div>
+
   <div class="table-wrap">
     <div class="table-head">
       <h3>All Responses</h3>
@@ -431,7 +511,7 @@ tbody td{
 
 <script>
 /* ── PASSWORD GATE ── */
-const PASSWORD = 'Rightman&Patience2026';
+const PASSWORD = 'Rightman2026';  // ← change this to your own password
 
 function checkPassword(){
   const val = document.getElementById('gateInput').value;
@@ -464,7 +544,8 @@ if(sessionStorage.getItem('dash_auth') === '1'){
 const ITEM_ID = '733f53ff297945c48f81e4a92ab9f501';
 const PORTAL  = 'https://www.arcgis.com';
 
-let allData   = [];  // cached for CSV export
+let allData     = [];  // cached for CSV export
+let allMessages = [];  // cached for message search
 let tick      = 60;
 let tickTimer = null;
 
@@ -652,7 +733,38 @@ function render(data){
       </table>`;
   }
 
+  /* ── messages ── */
+  const withMsg = fMsg ? attrs.filter(a => a[fMsg] && String(a[fMsg]).trim()) : [];
+  $('msgPanel').style.display = 'block';
+  allMessages = withMsg.map(a => ({
+    name: [fFirst&&a[fFirst],fLast&&a[fLast]].filter(Boolean).join(' ') || 'A Guest',
+    text: String(a[fMsg]).trim()
+  }));
+  $('msgCount').textContent = allMessages.length ? `· ${allMessages.length}` : '';
+  $('msgSearch').value = '';
+  renderMessages(allMessages);
+
   $('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+}
+
+/* ── messages helpers ── */
+function renderMessages(list){
+  if(!list.length){
+    $('messagesArea').innerHTML = `<div class="msg-no-match">${
+      $('msgSearch').value ? 'No messages match your search.' : 'No messages left yet — check back soon.'
+    }</div>`;
+    return;
+  }
+  $('messagesArea').innerHTML = list.map(m=>`
+    <div class="msg-row">
+      <span class="msg-row-name">${m.name}</span>
+      <p class="msg-row-text">${m.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
+    </div>`).join('');
+}
+
+function filterMessages(){
+  const q = ($('msgSearch').value||'').toLowerCase().trim();
+  renderMessages(q ? allMessages.filter(m=>m.name.toLowerCase().includes(q)) : allMessages);
 }
 
 /* ── CSV export ── */
