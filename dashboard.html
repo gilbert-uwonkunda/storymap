@@ -654,10 +654,10 @@ function render(data){
 
   /* ── stat cards ── */
   $('statsGrid').innerHTML = [
-    {label:'Total RSVPs',      num:total,       sub:'responses received',          accent:false},
-    {label:'Confirmed',        num:confirmed,   sub:'attending one or more events', accent:true},
-    {label:'Not Attending',    num:no.length,   sub:'regretfully unable to come',   accent:false},
-    {label:'Expected Guests',  num:totalGuests, sub:'total people attending',       accent:false},
+    {label:'Total RSVPs',      num:total,          sub:'responses received'},
+    {label:'All 3 Events',     num:dowryCount,     sub:'full day — intro, church & reception'},
+    {label:'Regrets',          num:no.length,      sub:'unable to attend'},
+    {label:'Expected Guests',  num:totalGuests,    sub:'total headcount incl. plus-ones'},
   ].map(s=>`
     <div class="stat-card">
       <span class="stat-label">${s.label}</span>
